@@ -100,24 +100,27 @@ button{
     width:70%;
     margin-left:10mm;
 }
+.codigoGM{
+    display:flex;
+    align-items:flex-end;
+}
 
 .gmPrefixo{
-    font-size:12px;
-    font-weight:900;
     font-family: Arial Black, Arial, sans-serif;
+    font-size:14px;
+    font-weight:900;
 }
 
 .gmNumero{
-    font-size:18px;
-    font-weight:900;
     font-family: Arial Black, Arial, sans-serif;
-}
+    font-size:24px;
+    font-weight:900;
 }
 
 .qtyGM{
 font-family: Arial Black, Arial, sans-serif;
     font-size:12px;
-    font-weight 800;
+    font-weight: 800;
     margin-top:6px;
 }
 
@@ -135,7 +138,7 @@ letter-spacing:-0.3px;
 }
 
 #datamatrixGM{
-    width:55=px;
+    width:55px;
     height:55px;
     margin-right:20px;
     scale: 0.8;
