@@ -80,7 +80,7 @@ button{
     display:flex;
     justify-content:center;
     align-items:center;
-    margin-top:2px;
+    margin-top:10px;
     margin-bottom:4px;
     margin-left:-30px;
 }
