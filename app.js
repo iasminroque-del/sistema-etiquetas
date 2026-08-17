@@ -68,7 +68,7 @@ button{
 #layoutGM{
     width:75mm;
     height:50mm;
-    padding-top:10px;
+    padding-top:15px;
     box-sizing:border-box;
     overflow:hidden;
     display:none;
@@ -102,18 +102,22 @@ button{
 }
 
 .codigoGM{
+    font-family: Arial Black, Arial, sans-serif
     font-size:18px;
     font-weight:900;
     margin-top:2px;
 }
 
 .qtyGM{
+font-family: Arial Black, Arial, sans-serif;
     font-size:12px;
     font-weight:900;
     margin-top:6px;
 }
 
 .descricaoGM{
+font-family: Arial Black, Arial, sans-serif;
+letter-spacing:-0.3px;
     font-size:10px;
     font-weight:900;
     margin-top:3px;
