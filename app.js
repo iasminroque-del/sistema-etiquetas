@@ -113,8 +113,8 @@ button{
 
 .gmNumero{
     font-family: Arial Black, Arial, sans-serif;
-	letter-spacing:-0.3px;
-    font-size:24px;
+	letter-spacing:-0.5px;
+    font-size:20px;
     font-weight:900;
 }
 
