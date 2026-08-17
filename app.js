@@ -103,29 +103,29 @@ button{
 
 .codigoGM{
     font-size:18px;
-    font-weight:bold;
+    font-weight:900;
     margin-top:2px;
 }
 
 .qtyGM{
     font-size:12px;
-    font-weight:bold;
+    font-weight:900;
     margin-top:6px;
 }
 
 .descricaoGM{
     font-size:10px;
-    font-weight:bold;
+    font-weight:900;
     margin-top:3px;
 }
 
 .gm-datamatrix{
-    width:25%;
+    width:23%;
     
 }
 
 #datamatrixGM{
-    width:55px;
+    width:55=px;
     height:55px;
     margin-right:20px;
     scale: 0.8;
