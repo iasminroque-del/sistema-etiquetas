@@ -135,9 +135,9 @@ button{
 /* INMETRO */
 
 #layoutINMETRO{
-    width:89mm;
+    width:90mm;
     height:79mm;
-    border:1px solid black;
+    border:none;
     display:none;
     overflow:hidden;
     background:white;
@@ -277,6 +277,10 @@ button{
     body.imprimirINMETRO #layoutINMETRO *{
         visibility:visible;
     }
+	body.imprimirINMETRO #layoutINMETRO{
+    width:90mm;
+    height:79mm;
+}
 
     #layoutGM,
     #layoutINMETRO{
