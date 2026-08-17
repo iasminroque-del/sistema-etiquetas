@@ -101,12 +101,17 @@ button{
     margin-left:10mm;
 }
 
-.codigoGM{
+.gmPrefixo{
+    font-size:12px;
+    font-weight:900;
     font-family: Arial Black, Arial, sans-serif;
-	letter-spacing:-0.4px;
+}
+
+.gmNumero{
     font-size:18px;
     font-weight:900;
-    margin-top:2px;
+    font-family: Arial Black, Arial, sans-serif;
+}
 }
 
 .qtyGM{
@@ -725,8 +730,10 @@ function atualizarPreview(){
         document.getElementById("layoutGM")
             .style.display = "block";
 
-        document.getElementById("gmCodigo")
-            .innerText = "GM#" + produto;
+      document.getElementById("gmCodigo")
+    .innerHTML =
+    '<span class="gmPrefixo">GM#</span>' +
+    '<span class="gmNumero">' + produto + '</span>';
 
      if(tipoQuantidade === "0008"){
 
