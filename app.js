@@ -68,7 +68,7 @@ button{
 #layoutGM{
     width:75mm;
     height:50mm;
-    padding:2mm;
+    padding-top:10px;
     box-sizing:border-box;
     overflow:hidden;
     display:none;
@@ -80,7 +80,7 @@ button{
     display:flex;
     justify-content:center;
     align-items:center;
-    margin-top:10px;
+    margin-top:2px;
     margin-bottom:4px;
     margin-left:-30px;
 }
