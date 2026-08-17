@@ -111,7 +111,7 @@ button{
 .qtyGM{
 font-family: Arial Black, Arial, sans-serif;
     font-size:12px;
-    font-weight:900;
+    font-weight 800;
     margin-top:6px;
 }
 
@@ -119,7 +119,7 @@ font-family: Arial Black, Arial, sans-serif;
 font-family: Arial Black, Arial, sans-serif;
 letter-spacing:-0.3px;
     font-size:10px;
-    font-weight:900;
+    font-weight:800;
     margin-top:3px;
 }
 
