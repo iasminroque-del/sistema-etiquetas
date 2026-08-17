@@ -973,7 +973,9 @@ window.onload = function(){
 
 });
 
-app.listen(3000, "0.0.0.0", () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
 
     console.log("Servidor iniciado");
 
