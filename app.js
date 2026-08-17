@@ -103,7 +103,7 @@ button{
 
 .codigoGM{
     font-family: Arial Black, Arial, sans-serif;
-	letter-spacing:-0.3px;
+	letter-spacing:-0.4px;
     font-size:18px;
     font-weight:900;
     margin-top:2px;
