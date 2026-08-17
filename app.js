@@ -313,6 +313,14 @@ letter-spacing:-0.3px;
     left:0mm;
 }
 
+@media print {
+
+    body.imprimirINMETRO #layoutINMETRO,
+    body.imprimirINMETRO #layoutINMETRO *{
+        visibility:visible;
+    }
+
+}
 
 
 
@@ -605,7 +613,6 @@ function carregarClientes(){
     });
 
 }
-
 function imprimirEtiqueta(){
 
     const cliente =
@@ -613,41 +620,18 @@ function imprimirEtiqueta(){
 
     if(cliente === "GM"){
 
-        document.body.className =
-            "imprimirGM";
+        document.body.className = "imprimirGM";
 
-        window.print();
+    }else{
 
-        return;
+        document.body.className = "imprimirINMETRO";
 
     }
 
-    imprimirINMETRO();
+    window.print();
 
 }
-function imprimirINMETRO(){
 
-    const etiqueta =
-        document.getElementById(
-            "layoutINMETRO"
-        ).outerHTML;
-
-    const janela =
-        window.open("", "_blank");
-
-    janela.document.write(
-        '<html>' +
-        '<body style="margin:0;">' +
-        etiqueta +
-        '</body>' +
-        '</html>'
-    );
-
-    janela.document.close();
-
-    janela.print();
-
-}
 
 function atualizarProdutos(){
 
