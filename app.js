@@ -131,6 +131,42 @@ button{
     scale: 0.8;
 }
 
+@media print {
+
+    html,
+    body{
+        width:75mm;
+        height:50mm;
+        margin:0;
+        padding:0;
+        overflow:hidden;
+    }
+
+    body *{
+        visibility:hidden;
+    }
+
+    body.imprimirGM #layoutGM,
+    body.imprimirGM #layoutGM *{
+        visibility:visible;
+    }
+
+    #layoutGM{
+        position:absolute;
+        left:0;
+        top:0;
+        border:none !important;
+        page-break-after:avoid;
+    width:100%;
+    height:100%;
+ }
+}
+
+@page{
+    size:75mm 50mm;
+    margin:0;
+}
+
 
 /* INMETRO */
 
@@ -262,73 +298,8 @@ button{
     left:0mm;
 }
 
-@media print {
 
-    body *{
-        visibility:hidden;
-    }
 
-    body.imprimirGM #layoutGM,
-    body.imprimirGM #layoutGM *{
-        visibility:visible;
-    }
-
-    body.imprimirINMETRO #layoutINMETRO,
-    body.imprimirINMETRO #layoutINMETRO *{
-        visibility:visible;
-    }
-	body.imprimirINMETRO #layoutINMETRO{
-    width:90mm;
-    height:79mm;
-}
-
-    #layoutGM,
-    #layoutINMETRO{
-        position:absolute;
-        left:0;
-        top:0;
-    }
-
-    body.imprimirGM #layoutGM{
-        display:block !important;
-        margin:0;
-    }
-
-@media print {
-
-    html,
-    body{
-        width:75mm;
-        height:50mm;
-        margin:0;
-        padding:0;
-        overflow:hidden;
-    }
-
-    body *{
-        visibility:hidden;
-    }
-
-    body.imprimirGM #layoutGM,
-    body.imprimirGM #layoutGM *{
-        visibility:visible;
-    }
-
-    #layoutGM{
-        position:absolute;
-        left:0;
-        top:0;
-        border:none !important;
-        page-break-after:avoid;
-    width:100%;
-    height:100%;
- }
-}
-
-@page{
-    size:75mm 50mm;
-    margin:0;
-}
 
 </style>
 
@@ -382,7 +353,7 @@ button{
 
 <div id="campoTipoGM">
 
-    <label>Tipo de Embalagem</label>
+    <label>Múltiplo</label>
 
     <select id="tipoQuantidade" onchange="atualizarPreview()">
         <option value="0008">0008</option>
@@ -392,7 +363,7 @@ button{
 </div>
 
 
-<button onclick="imprimirINMETRO()">
+<button onclick="imprimirEtiqueta()">
     Imprimir
 </button>
 
@@ -620,7 +591,7 @@ function carregarClientes(){
 
 }
 
-function imprimirINMETRO(){
+function imprimirEtiqueta(){
 
     const cliente =
         document.getElementById("cliente").value;
@@ -630,17 +601,38 @@ function imprimirINMETRO(){
         document.body.className =
             "imprimirGM";
 
-    }else{
+        window.print();
 
-        document.body.className =
-            "imprimirINMETRO";
+        return;
 
     }
 
-    window.print();
+    imprimirINMETRO();
 
 }
+function imprimirINMETRO(){
 
+    const etiqueta =
+        document.getElementById(
+            "layoutINMETRO"
+        ).outerHTML;
+
+    const janela =
+        window.open("", "_blank");
+
+    janela.document.write(
+        '<html>' +
+        '<body style="margin:0;">' +
+        etiqueta +
+        '</body>' +
+        '</html>'
+    );
+
+    janela.document.close();
+
+    janela.print();
+
+}
 
 function atualizarProdutos(){
 
