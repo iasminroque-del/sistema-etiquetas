@@ -59,12 +59,19 @@ button{
     border:none;
     padding:12px 20px;
     cursor:pointer;
-    border-radius:4px;
+    border-radius:6px;
+    font-weight:bold;
+    transition:0.2s;
 }
-
+button:hover{
+    background:#106ebe;
+}
 .preview{
-    background:white;
+    background:#f8f9fb;
     margin-top:20px;
+    padding:30px;
+    border-radius:8px;
+    border:1px solid #dce3ea;
 }
 .header{
     background:#002B5C;
@@ -75,9 +82,11 @@ button{
 
 .header h1{
     margin:0;
-    font-size:28px;
-    font-weight:600;
+    color:white;
+    font-size:34px;
+    font-weight:700;
 }
+
 .conteudo{
     padding:30px;
 }
