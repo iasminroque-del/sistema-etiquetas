@@ -25,17 +25,21 @@ src="https://unpkg.com/bwip-js/dist/bwip-js-min.js"></script>
 <style>
 
 body{
-    font-family: Arial;
-    background: #f4f6f9;
-    padding: 30px;
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:40px 0;
+    display:flex;
+    justify-content:center;
 }
 
 .card{
-    background: white;
-    max-width: 1200px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+width:90%;
+    width:1200px;
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 20px rgba(0,0,0,0.15);
 }
 
 label{
@@ -61,6 +65,21 @@ button{
 .preview{
     background:white;
     margin-top:20px;
+}
+.header{
+    background:#002B5C;
+    color:white;
+    padding:20px 30px;
+    border-bottom:4px solid #0078d4;
+}
+
+.header h1{
+    margin:0;
+    font-size:28px;
+    font-weight:600;
+}
+.conteudo{
+    padding:30px;
 }
 
 /* GM */
@@ -330,9 +349,15 @@ letter-spacing:-0.3px;
 
 <body>
 
+<body>
+
 <div class="card">
 
-<h1>Sistema de Etiquetas</h1>
+    <div class="header">
+        <h1>Sistema de Etiquetas</h1>
+    </div>
+
+    <div class="conteudo">
 
 <label>Cliente</label>
 
@@ -527,7 +552,8 @@ letter-spacing:-0.3px;
 </div>
 
 </div>
-
+</div>
+</div>
 <script>
 
 const dados = {
