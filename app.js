@@ -342,23 +342,22 @@ letter-spacing:-0.3px;
 }
 #containerINMETRO{
     display:none;
-    flex-direction:column;
+    flex-direction:row;
     gap:3mm;
     align-items:flex-start;
 }
-
 #layoutINMETRO2{
     width:90mm;
     height:79mm;
     overflow:hidden;
     background:white;
 }
-
 #layoutINMETRO,
 #layoutINMETRO2{
     width:90mm;
     height:79mm;
-    display:flex;
+    overflow:hidden;
+    background:white;
     flex-shrink:0;
 }
 
