@@ -340,6 +340,18 @@ letter-spacing:-0.3px;
 
     left:0mm;
 }
+#containerINMETRO{
+    display:none;
+    flex-direction:column;
+    gap:3mm;
+}
+
+#layoutINMETRO2{
+    width:90mm;
+    height:79mm;
+    overflow:hidden;
+    background:white;
+}
 
 @media print {
 
@@ -467,6 +479,7 @@ letter-spacing:-0.3px;
 </div>
 
 
+<div id="containerINMETRO">
 
 <div id="layoutINMETRO">
 
@@ -555,6 +568,11 @@ letter-spacing:-0.3px;
     </div>
 
 
+    </div>
+<div id="layoutINMETRO2">
+
+        </div>
+</div>
 
 </div>
 
@@ -563,6 +581,7 @@ letter-spacing:-0.3px;
 </div>
 </div>
 </div>
+
 <script>
 
 const dados = {
@@ -746,10 +765,14 @@ function atualizarPreview(){
 
 
 
+
     if(cliente === "GM"){
 
         const produtoInfo =
             dados.GM.produtos[produto];
+			
+		document.getElementById("containerINMETRO")
+    		.style.display = "none";
 
         document.getElementById("layoutGM")
             .style.display = "block";
@@ -821,6 +844,12 @@ function atualizarPreview(){
 
         const produtoInfo =
             dados.INMETRO.produtos[produto];
+
+		document.getElementById("containerINMETRO")
+    		.style.display = "flex";
+
+		document.getElementById("layoutINMETRO")
+    		.style.display = "flex";
 
         document.getElementById("layoutINMETRO")
             .style.display = "flex";
@@ -980,7 +1009,11 @@ document.getElementById(
                 margin:0
     	      }
 );
+document.getElementById("layoutINMETRO2").innerHTML =
+    document.getElementById("layoutINMETRO").innerHTML;
 
+document.getElementById("layoutINMETRO2").style.display =
+    "flex";
 
 
     }
