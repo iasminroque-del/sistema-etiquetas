@@ -578,14 +578,13 @@ letter-spacing:-0.3px;
 
 
     </div>
-	</div>
 <div id="layoutINMETRO2">
 
         </div>
 
 
 </div>
-
+</div>
 </div>
 
 </div>
