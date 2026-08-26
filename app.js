@@ -341,24 +341,17 @@ letter-spacing:-0.3px;
     left:0mm;
 }
 #containerINMETRO{
-    display:none;
+    display:flex;
     flex-direction:row;
     gap:3mm;
-    align-items:flex-start;
 }
-#layoutINMETRO2{
-    width:90mm;
-    height:79mm;
-    overflow:hidden;
-    background:white;
-}
+
 #layoutINMETRO,
 #layoutINMETRO2{
-    width:90mm;
+    width:45mm;
     height:79mm;
     overflow:hidden;
     background:white;
-    flex-shrink:0;
 }
 
 @media print {
