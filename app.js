@@ -363,8 +363,10 @@ letter-spacing:-0.3px;
 }
 
 #layoutINMETRO2{
-    border:3px solid blue !important;
-    display:flex !important;
+    width:45mm;
+    height:79mm;
+    border:3px solid blue;
+    display:block !important;
 }
 
 @media print {
@@ -580,12 +582,15 @@ letter-spacing:-0.3px;
         <svg id="barcodeINMETRO"></svg>
 
     </div>
+	<div style="background:yellow">
+    AQUI
+</div>
 
+</div>
 
-    </div>
-<div id="layoutINMETRO2">
-
-        </div>
+    <div id="layoutINMETRO2">
+    TESTE
+</div>
 
 
 </div>
