@@ -291,7 +291,9 @@ letter-spacing:-0.3px;
 }
 
 #inmetroDescricaoEN,
-#inmetroDescricaoPT{
+#inmetroDescricaoPT,
+#inmetroDescricaoEN2,
+#inmetroDescricaoPT2{
     font-size:12px;
     font-weight:bold;
 
@@ -308,7 +310,11 @@ letter-spacing:-0.3px;
 #inmetroFabricante,
 #inmetroEndereco,
 #inmetroCidade,
-#inmetroCnpj{
+#inmetroCnpj,
+#inmetroFabricante2,
+#inmetroEndereco2,
+#inmetroCidade2,
+#inmetroCnpj2{
     position:relative;
     left:1mm;
     top:-1mm;
@@ -367,6 +373,18 @@ letter-spacing:-0.3px;
     height:79mm;
     border:3px solid blue;
     display:block !important;
+}
+
+#conteudoINMETRO2{
+    transform:rotate(-90deg);
+    transform-origin:top left;
+
+    position:relative;
+
+    left:-1mm;
+    top:70mm;
+
+    width:42mm;
 }
 
 @media print {
@@ -591,8 +609,95 @@ body.imprimirINMETRO #containerINMETRO *{
 
 </div>
 
-    <div id="layoutINMETRO2">
-    TESTE
+   <div id="layoutINMETRO2">
+
+	<div class="inmetro-esquerda">
+
+        <div id="inmetroQuantidade2">
+            1 KIT / UNIT
+        </div>
+
+        <div id="inmetroCodigoCliente2"></div>
+
+    </div>
+
+
+    <div class="inmetro-direita">
+
+<div id="conteudoINMETRO2">
+
+
+
+<div class="inmetro-topo">
+
+    <div class="inmetro-selo"></div>
+
+</div>
+
+<div
+    class="inmetroProduto"
+    id="inmetroCodigoProduto2">
+</div>
+
+      <div
+    	class="inmetroDescricao"
+    	id="inmetroDescricaoEN2">
+     </div>
+
+
+       <div
+	  class="inmetroDescricao"
+	  id="inmetroDescricaoPT2">
+       </div>
+
+        <div
+            class="inmetroTexto"
+            id="inmetroFabricante2">
+        </div>
+
+        <div
+            class="inmetroTexto"
+            id="inmetroEndereco2">
+        </div>
+
+        <div
+            class="inmetroTexto"
+            id="inmetroCidade2">
+        </div>
+
+        <div
+            class="inmetroTexto"
+            id="inmetroCnpj2">
+        </div>
+<div
+    class="inmetroTexto"
+    id="inmetroOrigem2">
+</div>
+
+<div
+    class="inmetroTexto"
+    id="inmetroRegistro2">
+</div>
+
+<div
+    class="inmetroTexto"
+    id="inmetroSac2">
+</div>
+
+<div id="linhaData2">
+
+    <span id="inmetroData"></span>
+
+    <span id="inmetroCodigoRastreio"></span>
+
+</div>
+        <svg id="barcodeINMETRO2"></svg>
+
+    </div>
+	</div>
+	
+
+</div>
 </div>
 
 
@@ -1014,6 +1119,57 @@ document.getElementById(
 ).innerText =
     codigoData;
 
+	document.getElementById("inmetroCodigoCliente2")
+    .innerText = produtoInfo.codigoCliente;
+
+document.getElementById("inmetroCodigoProduto2")
+    .innerText = produto;
+
+document.getElementById("inmetroDescricaoEN2")
+    .innerText = produtoInfo.descricaoEN;
+
+document.getElementById("inmetroDescricaoPT2")
+    .innerText = produtoInfo.descricaoPT;
+
+document.getElementById("inmetroFabricante2")
+    .innerText = produtoInfo.fabricante;
+
+document.getElementById("inmetroEndereco2")
+    .innerText = produtoInfo.endereco;
+
+document.getElementById("inmetroCidade2")
+    .innerText = produtoInfo.cidade;
+
+document.getElementById("inmetroCnpj2")
+    .innerText = produtoInfo.cnpj;
+
+document.getElementById("inmetroData2")
+    .innerText = dataFormatada;
+
+document.getElementById("inmetroCodigoRastreio2")
+    .innerText = codigoData;
+
+	document.getElementById("inmetroOrigem2")
+    .innerText = produtoInfo.origem;
+
+document.getElementById("inmetroRegistro2")
+    .innerText = produtoInfo.registro;
+
+document.getElementById("inmetroSac2")
+    .innerText = produtoInfo.sac;
+
+	JsBarcode(
+    "#barcodeINMETRO2",
+    produtoInfo.codigoCliente,
+    {
+        format:"CODE128",
+        width:1,
+        height:25,
+        displayValue:false,
+        margin:0
+    }
+);
+
 
 	JsBarcode(
     	     "#barcodeINMETRO",
@@ -1026,22 +1182,11 @@ document.getElementById(
                 margin:0
     	      }
 );
-
-console.log(
-    document.getElementById("layoutINMETRO2")
-);
-document.getElementById("layoutINMETRO2").innerHTML =
-    document.getElementById("layoutINMETRO").innerHTML;
-
-document.getElementById("layoutINMETRO2").style.display =
-    "flex";
-
-console.log(
-    document.getElementById("layoutINMETRO2").innerHTML
-);
-    }
-
+document.getElementById("inmetroQuantidade2")
+    .innerText =
+    tipoKit + " KIT / UNIT";
 }
+
 
 window.onload = function(){
 
@@ -1050,6 +1195,7 @@ window.onload = function(){
     atualizarProdutos();
 
 };
+
 
 </script>
 
