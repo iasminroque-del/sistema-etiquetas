@@ -344,6 +344,7 @@ letter-spacing:-0.3px;
     display:none;
     flex-direction:column;
     gap:3mm;
+    align-items:flex-start;
 }
 
 #layoutINMETRO2{
@@ -351,6 +352,14 @@ letter-spacing:-0.3px;
     height:79mm;
     overflow:hidden;
     background:white;
+}
+
+#layoutINMETRO,
+#layoutINMETRO2{
+    width:90mm;
+    height:79mm;
+    display:flex;
+    flex-shrink:0;
 }
 
 @media print {
@@ -569,10 +578,11 @@ letter-spacing:-0.3px;
 
 
     </div>
+	</div>
 <div id="layoutINMETRO2">
 
         </div>
-</div>
+
 
 </div>
 
