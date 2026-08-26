@@ -582,6 +582,9 @@ letter-spacing:-0.3px;
         <svg id="barcodeINMETRO"></svg>
 
     </div>
+	</div>
+	</div>
+	
 	<div style="background:yellow">
     AQUI
 </div>
@@ -593,11 +596,6 @@ letter-spacing:-0.3px;
 </div>
 
 
-</div>
-</div>
-</div>
-
-</div>
 </div>
 </div>
 
