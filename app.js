@@ -371,11 +371,15 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    body.imprimirINMETRO #layoutINMETRO,
-    body.imprimirINMETRO #layoutINMETRO *{
-        visibility:visible;
-    }
+body.imprimirINMETRO #containerINMETRO,
+body.imprimirINMETRO #containerINMETRO *{
+    visibility:visible;
+}  
+}
 
+@page{
+    size:93mm 79mm;
+    margin:0;
 }
 
 
