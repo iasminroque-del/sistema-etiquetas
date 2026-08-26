@@ -348,10 +348,18 @@ letter-spacing:-0.3px;
 
 #layoutINMETRO,
 #layoutINMETRO2{
-    width:45mm;
+    width:90mm;
     height:79mm;
     overflow:hidden;
     background:white;
+}
+
+#layoutINMETRO{
+    border:1px solid red;
+}
+
+#layoutINMETRO2{
+    border:1px solid blue;
 }
 
 @media print {
