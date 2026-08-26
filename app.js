@@ -363,7 +363,8 @@ letter-spacing:-0.3px;
 }
 
 #layoutINMETRO2{
-    border:1px solid blue;
+    border:3px solid blue !important;
+    display:flex !important;
 }
 
 @media print {
@@ -1022,13 +1023,19 @@ document.getElementById(
                 margin:0
     	      }
 );
+
+console.log(
+    document.getElementById("layoutINMETRO2")
+);
 document.getElementById("layoutINMETRO2").innerHTML =
     document.getElementById("layoutINMETRO").innerHTML;
 
 document.getElementById("layoutINMETRO2").style.display =
     "flex";
 
-
+console.log(
+    document.getElementById("layoutINMETRO2").innerHTML
+);
     }
 
 }
