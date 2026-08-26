@@ -345,12 +345,17 @@ letter-spacing:-0.3px;
     flex-direction:row;
     gap:3mm;
 }
+#conteudoINMETRO{
+    width:42mm;
+}
+
 
 #layoutINMETRO,
 #layoutINMETRO2{
     width:45mm;
     height:79mm;
-    overflow:visible;
+    overflow:hidden;
+    background:white;
 }
 
 #layoutINMETRO{
