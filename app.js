@@ -348,7 +348,7 @@ letter-spacing:-0.3px;
 
 #layoutINMETRO,
 #layoutINMETRO2{
-    width:90mm;
+    width:45mm;
     height:79mm;
     overflow:hidden;
     background:white;
