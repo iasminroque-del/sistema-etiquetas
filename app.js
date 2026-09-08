@@ -1236,7 +1236,6 @@ document.getElementById("inmetroSac2")
 document.getElementById("inmetroQuantidade2")
     .innerText =
     tipoKit + " KIT / UNIT";
-}
 
 
 window.onload = function(){
