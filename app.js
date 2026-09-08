@@ -176,39 +176,42 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    html,
-    body{
-        width:75mm;
-        height:50mm;
-        margin:0;
-        padding:0;
-        overflow:hidden;
-    }
-
     body *{
         visibility:hidden;
     }
+
+    /* GM */
 
     body.imprimirGM #layoutGM,
     body.imprimirGM #layoutGM *{
         visibility:visible;
     }
 
-    #layoutGM{
+    body.imprimirGM #layoutGM{
         position:absolute;
         left:0;
         top:0;
-        border:none !important;
-        page-break-after:avoid;
-    width:100%;
-    height:100%;
- }
+        width:75mm;
+        height:50mm;
+    }
+
+    /* INMETRO */
+
+    body.imprimirINMETRO #containerINMETRO,
+    body.imprimirINMETRO #containerINMETRO *{
+        visibility:visible;
+    }
+
+    body.imprimirINMETRO #containerINMETRO{
+        position:absolute;
+        left:0;
+        top:0;
+        width:93mm;
+        height:79mm;
+        display:flex !important;
+    }
 }
 
-@page{
-    size:75mm 50mm;
-    margin:0;
-}
 
 
 /* INMETRO */
@@ -433,16 +436,17 @@ letter-spacing:-0.3px;
     top:-1mm;
 }
 
-@media print {
-
-body.imprimirINMETRO #containerINMETRO,
-body.imprimirINMETRO #containerINMETRO *{
-    visibility:visible;
-}  
+body.imprimirINMETRO #containerINMETRO{
+    position:absolute;
+    left:0;
+    top:0;
+    display:flex !important;
+    visibility:visible !important;
 }
 
+
 @page{
-    size:93mm 79mm;
+    size:93mm 79mm landscape;
     margin:0;
 }
 
