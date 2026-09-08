@@ -1059,8 +1059,7 @@ const tipoKit =
 document.getElementById("inmetroQuantidade")
     .innerText =
     tipoKit + " KIT / UNIT";
-	}
-	}
+
 
 document.getElementById("inmetroOrigem")
     .innerText =
@@ -1236,6 +1235,8 @@ document.getElementById("inmetroSac2")
 document.getElementById("inmetroQuantidade2")
     .innerText =
     tipoKit + " KIT / UNIT";
+	}
+	}
 
 
 window.onload = function(){
