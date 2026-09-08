@@ -320,7 +320,7 @@ letter-spacing:-0.3px;
     top:-1mm;
 }
 
-#linhaData{
+#linhaData2{
     display:flex;
     align-items:center;
     gap:6.5mm;
@@ -372,7 +372,7 @@ letter-spacing:-0.3px;
     width:45mm;
     height:79mm;
     border:3px solid blue;
-    display:block !important;
+    display:flex !important;
 }
 
 #conteudoINMETRO2{
@@ -385,6 +385,51 @@ letter-spacing:-0.3px;
     top:70mm;
 
     width:42mm;
+}
+#inmetroQuantidade2{
+    font-size:11px;
+    font-weight:bold;
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+
+    position:relative;
+    left:2.5mm;
+    top:2mm;
+}
+#inmetroCodigoCliente2{
+    font-size:20px;
+    font-weight:bold;
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    margin-top:35mm;
+}
+#inmetroData2{
+    font-size:8px;
+    font-weight:bold;
+
+    position:relative;
+    left:1mm;
+}
+
+#inmetroCodigoRastreio2{
+    font-size:8px;
+    font-weight:bold;
+
+    position:relative;
+    left:0mm;
+}
+#inmetroOrigem2,
+#inmetroRegistro2,
+#inmetroSac2{
+    display:none;
+}
+#barcodeINMETRO2{
+    width:100px;
+    height:25px;
+    margin-top:5px;
+
+    position:relative;
+    top:-1mm;
 }
 
 @media print {
@@ -686,9 +731,9 @@ body.imprimirINMETRO #containerINMETRO *{
 
 <div id="linhaData2">
 
-    <span id="inmetroData"></span>
+    <span id="inmetroData2"></span>
 
-    <span id="inmetroCodigoRastreio"></span>
+    <span id="inmetroCodigoRastreio2"></span>
 
 </div>
         <svg id="barcodeINMETRO2"></svg>
@@ -1130,6 +1175,10 @@ document.getElementById("inmetroDescricaoEN2")
 
 document.getElementById("inmetroDescricaoPT2")
     .innerText = produtoInfo.descricaoPT;
+
+console.log(
+    document.getElementById("inmetroDescricaoPT2").innerText
+);
 
 document.getElementById("inmetroFabricante2")
     .innerText = produtoInfo.fabricante;
