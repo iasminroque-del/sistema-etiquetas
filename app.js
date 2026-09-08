@@ -320,6 +320,7 @@ letter-spacing:-0.3px;
     top:-1mm;
 }
 
+#linhaData,
 #linhaData2{
     display:flex;
     align-items:center;
@@ -453,7 +454,6 @@ body.imprimirINMETRO #containerINMETRO *{
 
 <body>
 
-<body>
 
 <div class="card">
 
@@ -1059,6 +1059,8 @@ const tipoKit =
 document.getElementById("inmetroQuantidade")
     .innerText =
     tipoKit + " KIT / UNIT";
+	}
+	}
 
 document.getElementById("inmetroOrigem")
     .innerText =
