@@ -835,7 +835,6 @@ function carregarClientes(){
 
     });
 
-}
 function imprimirEtiqueta(){
 
     const cliente =
@@ -848,23 +847,16 @@ function imprimirEtiqueta(){
 
         document.body.className = "imprimirGM";
 
-        estilo.innerHTML = `
-            @page{
-                size:75mm 50mm;
-                margin:0;
-            }
-        `;
+        estilo.innerHTML =
+        '@page { size: 75mm 50mm; margin: 0; }';
 
     }else{
 
-        document.body.className = "imprimirINMETRO";
+        document.body.className =
+        "imprimirINMETRO";
 
-        estilo.innerHTML = `
-            @page{
-                size:93mm 80mm;
-                margin:0;
-            }
-        `;
+        estilo.innerHTML =
+        '@page { size: 80mm 90mm; margin: 0; }';
     }
 
     window.print();
