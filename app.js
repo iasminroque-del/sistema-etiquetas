@@ -180,8 +180,6 @@ letter-spacing:-0.3px;
         visibility:hidden;
     }
 
-    /* GM */
-
     body.imprimirGM #layoutGM,
     body.imprimirGM #layoutGM *{
         visibility:visible;
@@ -189,11 +187,18 @@ letter-spacing:-0.3px;
 
     body.imprimirGM #layoutGM{
         position:absolute;
-        left:0;
         top:0;
+        left:0;
+
         width:75mm;
         height:50mm;
+
+        padding-left:15mm;
+        box-sizing:border-box;
+
+        overflow:hidden;
     }
+}
 
     /* INMETRO */
 
@@ -443,13 +448,6 @@ body.imprimirINMETRO #containerINMETRO{
     display:flex !important;
     visibility:visible !important;
 }
-
-
-@page{
-    size:93mm 79mm landscape;
-    margin:0;
-}
-
 
 
 </style>
@@ -843,18 +841,33 @@ function imprimirEtiqueta(){
     const cliente =
         document.getElementById("cliente").value;
 
+    const estilo =
+        document.getElementById("printPageSize");
+
     if(cliente === "GM"){
 
         document.body.className = "imprimirGM";
+
+        estilo.innerHTML = `
+            @page{
+                size:75mm 50mm;
+                margin:0;
+            }
+        `;
 
     }else{
 
         document.body.className = "imprimirINMETRO";
 
+        estilo.innerHTML = `
+            @page{
+                size:93mm 80mm;
+                margin:0;
+            }
+        `;
     }
 
     window.print();
-
 }
 
 
