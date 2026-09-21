@@ -834,6 +834,7 @@ function carregarClientes(){
         cliente.appendChild(option);
 
     });
+	}
 
 function imprimirEtiqueta(){
 
