@@ -840,26 +840,18 @@ function imprimirEtiqueta(){
     const cliente =
         document.getElementById("cliente").value;
 
-    const estilo =
-        document.getElementById("printPageSize");
-
     if(cliente === "GM"){
 
         document.body.className = "imprimirGM";
 
-        estilo.innerHTML =
-        '@page { size: 75mm 50mm; margin: 0; }';
-
     }else{
 
-        document.body.className =
-        "imprimirINMETRO";
+        document.body.className = "imprimirINMETRO";
 
-        estilo.innerHTML =
-        '@page { size: 80mm 90mm; margin: 0; }';
     }
 
     window.print();
+
 }
 
 
