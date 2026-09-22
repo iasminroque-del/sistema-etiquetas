@@ -127,7 +127,7 @@ button:hover{
 
 .gm-info{
     width:70%;
-    margin-left:15mm;
+    margin-left:10mm;
 }
 .codigoGM{
     display:flex;
@@ -176,18 +176,20 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    body *{
-        visibility:hidden;
+    html,
+    body{
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    /* Esconde tudo */
+    .card{
+        display:none !important;
     }
 
     /* GM */
-
-    body.imprimirGM #layoutGM,
-    body.imprimirGM #layoutGM *{
-        visibility:visible;
-    }
-
     body.imprimirGM #layoutGM{
+        display:block !important;
         position:absolute;
         top:0;
         left:0;
@@ -200,13 +202,9 @@ letter-spacing:-0.3px;
     }
 
     /* INMETRO */
-
-    body.imprimirINMETRO #containerINMETRO,
-    body.imprimirINMETRO #containerINMETRO *{
-        visibility:visible;
-    }
-
     body.imprimirINMETRO #containerINMETRO{
+        display:flex !important;
+
         position:absolute;
         top:0;
         left:0;
@@ -216,10 +214,9 @@ letter-spacing:-0.3px;
 
         overflow:hidden;
         background:white;
-        display:flex !important;
     }
 
-}  
+}
 
 
 /* INMETRO */
@@ -844,19 +841,22 @@ function imprimirEtiqueta(){
     const cliente =
         document.getElementById("cliente").value;
 
+    document.body.classList.remove(
+        "imprimirGM",
+        "imprimirINMETRO"
+    );
+
     if(cliente === "GM"){
 
-        document.body.className =
-        "imprimirGM";
+        document.body.classList.add("imprimirGM");
 
     }else{
 
-        document.body.className =
-        "imprimirINMETRO";
+        document.body.classList.add("imprimirINMETRO");
+
     }
 
     window.print();
-
 }
 
 
