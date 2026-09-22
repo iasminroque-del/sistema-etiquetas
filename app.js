@@ -367,10 +367,7 @@ letter-spacing:-0.3px;
     background:white;
 }
 
-#layoutINMETRO{
-    border:none;
-}
-
+#layoutINMETRO,
 #layoutINMETRO2{
     width:45mm;
     height:79mm;
@@ -438,10 +435,10 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    body.imprimirINMETRO #layoutINMETRO,
-    body.imprimirINMETRO #layoutINMETRO *{
-        visibility:visible;
-    }
+ body.imprimirINMETRO #containerINMETRO,
+body.imprimirINMETRO #containerINMETRO *{
+    visibility:visible;
+}
 
 }
 
@@ -563,91 +560,73 @@ letter-spacing:-0.3px;
 
 
 
-<div id="layoutINMETRO">
+<div id="containerINMETRO">
 
-	<div class="inmetro-esquerda">
+    <!-- ETIQUETA 1 -->
+    <div id="layoutINMETRO">
 
-        <div id="inmetroQuantidade">
-            1 KIT / UNIT
+        <div class="inmetro-esquerda">
+            <div id="inmetroQuantidade"></div>
+            <div id="inmetroCodigoCliente"></div>
         </div>
 
-        <div id="inmetroCodigoCliente"></div>
+        <div class="inmetro-direita">
+
+            <div id="conteudoINMETRO">
+
+                <div id="inmetroCodigoProduto"></div>
+                <div id="inmetroDescricaoEN"></div>
+                <div id="inmetroDescricaoPT"></div>
+
+                <div id="inmetroFabricante"></div>
+                <div id="inmetroEndereco"></div>
+                <div id="inmetroCidade"></div>
+                <div id="inmetroCnpj"></div>
+
+                <span id="inmetroData"></span>
+                <span id="inmetroCodigoRastreio"></span>
+
+                <svg id="barcodeINMETRO"></svg>
+
+            </div>
+
+        </div>
 
     </div>
 
+    <!-- ETIQUETA 2 -->
+    <div id="layoutINMETRO2">
 
-    <div class="inmetro-direita">
-
-<div id="conteudoINMETRO">
-
-
-
-<div class="inmetro-topo">
-
-    <div class="inmetro-selo"></div>
-
-</div>
-
-<div
-    class="inmetroProduto"
-    id="inmetroCodigoProduto">
-</div>
-
-      <div
-    	class="inmetroDescricao"
-    	id="inmetroDescricaoEN">
-     </div>
-
-
-       <div
-	  class="inmetroDescricao"
-	  id="inmetroDescricaoPT">
-       </div>
-
-        <div
-            class="inmetroTexto"
-            id="inmetroFabricante">
+        <div class="inmetro-esquerda">
+            <div id="inmetroQuantidade2"></div>
+            <div id="inmetroCodigoCliente2"></div>
         </div>
 
-        <div
-            class="inmetroTexto"
-            id="inmetroEndereco">
+        <div class="inmetro-direita">
+
+            <div id="conteudoINMETRO2">
+
+                <div id="inmetroCodigoProduto2"></div>
+                <div id="inmetroDescricaoEN2"></div>
+                <div id="inmetroDescricaoPT2"></div>
+
+                <div id="inmetroFabricante2"></div>
+                <div id="inmetroEndereco2"></div>
+                <div id="inmetroCidade2"></div>
+                <div id="inmetroCnpj2"></div>
+
+                <span id="inmetroData2"></span>
+                <span id="inmetroCodigoRastreio2"></span>
+
+                <svg id="barcodeINMETRO2"></svg>
+
+            </div>
+
         </div>
-
-        <div
-            class="inmetroTexto"
-            id="inmetroCidade">
-        </div>
-
-        <div
-            class="inmetroTexto"
-            id="inmetroCnpj">
-        </div>
-<div
-    class="inmetroTexto"
-    id="inmetroOrigem">
-</div>
-
-<div
-    class="inmetroTexto"
-    id="inmetroRegistro">
-</div>
-
-<div
-    class="inmetroTexto"
-    id="inmetroSac">
-</div>
-
-<div id="linhaData">
-
-    <span id="inmetroData"></span>
-
-    <span id="inmetroCodigoRastreio"></span>
-
-</div>
-        <svg id="barcodeINMETRO"></svg>
 
     </div>
+
+</div>
 
 
 
@@ -805,6 +784,9 @@ function atualizarPreview(){
 
 	document.getElementById("campoINMETRO")
           .style.display = "none";
+		  
+	document.getElementById("containerINMETRO")
+    	  .style.display = "none";
 
 	document.getElementById("campoTipoGM")
 	  .style.display = "block";
@@ -917,8 +899,8 @@ function atualizarPreview(){
         const produtoInfo =
             dados.INMETRO.produtos[produto];
 
-        document.getElementById("layoutINMETRO")
-            .style.display = "flex";
+        document.getElementById("containerINMETRO")
+   			 .style.display = "flex";
 
         document.getElementById("inmetroCodigoCliente")
             .innerText =
@@ -951,6 +933,38 @@ function atualizarPreview(){
         document.getElementById("inmetroCnpj")
             .innerText =
             produtoInfo.cnpj;
+		document.getElementById("inmetroCodigoCliente2")
+    .innerText = produtoInfo.codigoCliente;
+
+document.getElementById("inmetroCodigoProduto2")
+    .innerText = produto;
+
+document.getElementById("inmetroDescricaoEN2")
+    .innerText = produtoInfo.descricaoEN;
+
+document.getElementById("inmetroDescricaoPT2")
+    .innerText = produtoInfo.descricaoPT;
+
+document.getElementById("inmetroFabricante2")
+    .innerText = produtoInfo.fabricante;
+
+document.getElementById("inmetroEndereco2")
+    .innerText = produtoInfo.endereco;
+
+document.getElementById("inmetroCidade2")
+    .innerText = produtoInfo.cidade;
+
+document.getElementById("inmetroCnpj2")
+    .innerText = produtoInfo.cnpj;
+
+document.getElementById("inmetroQuantidade2")
+    .innerText = tipoKit + " KIT / UNIT";
+
+document.getElementById("inmetroData2")
+    .innerText = dataFormatada;
+
+document.getElementById("inmetroCodigoRastreio2")
+    .innerText = codigoData;
 
 const tipoKit =
     document.getElementById("tipoKit").value;
@@ -1076,6 +1090,17 @@ document.getElementById(
     	      }
 );
 
+JsBarcode(
+    "#barcodeINMETRO2",
+    produtoInfo.codigoCliente,
+    {
+        format:"CODE128",
+        width:1,
+        height:25,
+        displayValue:false,
+        margin:0
+    }
+);
 
 
     }
