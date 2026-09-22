@@ -595,39 +595,92 @@ body.imprimirINMETRO #containerINMETRO *{
     </div>
 
     <!-- ETIQUETA 2 -->
-    <div id="layoutINMETRO2">
+	
+ <div id="layoutINMETRO2">
 
-        <div class="inmetro-esquerda">
-            <div id="inmetroQuantidade2"></div>
-            <div id="inmetroCodigoCliente2"></div>
+    <div class="inmetro-esquerda">
+
+        <div id="inmetroQuantidade2">
+            1 KIT / UNIT
         </div>
 
-        <div class="inmetro-direita">
+        <div id="inmetroCodigoCliente2"></div>
 
-            <div id="conteudoINMETRO2">
+    </div>
 
-                <div id="inmetroCodigoProduto2"></div>
-                <div id="inmetroDescricaoEN2"></div>
-                <div id="inmetroDescricaoPT2"></div>
+    <div class="inmetro-direita">
 
-                <div id="inmetroFabricante2"></div>
-                <div id="inmetroEndereco2"></div>
-                <div id="inmetroCidade2"></div>
-                <div id="inmetroCnpj2"></div>
+        <div id="conteudoINMETRO2">
+
+            <div class="inmetro-topo">
+                <div class="inmetro-selo"></div>
+            </div>
+
+            <div
+                class="inmetroProduto"
+                id="inmetroCodigoProduto2">
+            </div>
+
+            <div
+                class="inmetroDescricao"
+                id="inmetroDescricaoEN2">
+            </div>
+
+            <div
+                class="inmetroDescricao"
+                id="inmetroDescricaoPT2">
+            </div>
+
+            <div
+                class="inmetroTexto"
+                id="inmetroFabricante2">
+            </div>
+
+            <div
+                class="inmetroTexto"
+                id="inmetroEndereco2">
+            </div>
+
+            <div
+                class="inmetroTexto"
+                id="inmetroCidade2">
+            </div>
+
+            <div
+                class="inmetroTexto"
+                id="inmetroCnpj2">
+            </div>
+
+            <div
+                class="inmetroTexto"
+                id="inmetroOrigem2">
+            </div>
+
+            <div
+                class="inmetroTexto"
+                id="inmetroRegistro2">
+            </div>
+
+            <div
+                class="inmetroTexto"
+                id="inmetroSac2">
+            </div>
+
+            <div id="linhaData2">
 
                 <span id="inmetroData2"></span>
+
                 <span id="inmetroCodigoRastreio2"></span>
 
-                <svg id="barcodeINMETRO2"></svg>
-
             </div>
+
+            <svg id="barcodeINMETRO2"></svg>
 
         </div>
 
     </div>
 
 </div>
-
 
 
 </div>
