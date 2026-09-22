@@ -111,7 +111,7 @@ button:hover{
     align-items:center;
     margin-top:2px;
     margin-bottom:4px;
-    margin-left:-30px;
+    margin-left:0px;
 }
 
 #barcodeGM{
@@ -180,24 +180,69 @@ letter-spacing:-0.3px;
         visibility:hidden;
     }
 
+    /* ==========================
+       GM - 75mm x 50mm
+       ========================== */
+
     body.imprimirGM #layoutGM,
     body.imprimirGM #layoutGM *{
         visibility:visible;
     }
 
     body.imprimirGM #layoutGM{
-        position:absolute;
-        top:0;
-        left:0;
 
-        width:75mm;
-        height:50mm;
+        position:absolute;
+        left:0;
+        top:0;
+
+        width:75mm !important;
+        height:50mm !important;
 
         padding-left:15mm;
         box-sizing:border-box;
-
         overflow:hidden;
+        background:white;
     }
+
+    body.imprimirGM .gm-barcode{
+        margin-left:0 !important;
+    }
+
+    body.imprimirGM .gm-info{
+        margin-left:0 !important;
+    }
+
+    /* ==========================
+       INMETRO - 90mm x 80mm
+       ========================== */
+
+    body.imprimirINMETRO #containerINMETRO,
+    body.imprimirINMETRO #containerINMETRO *{
+        visibility:visible;
+    }
+
+    body.imprimirINMETRO #containerINMETRO{
+
+        position:absolute;
+        left:0;
+        top:0;
+
+        width:90mm !important;
+        height:80mm !important;
+
+        display:flex !important;
+        overflow:hidden;
+        background:white;
+    }
+
+    body.imprimirINMETRO #layoutINMETRO{
+        border:none !important;
+    }
+
+    body.imprimirINMETRO #layoutINMETRO2{
+        border:none !important;
+    }
+
 }
 
     /* INMETRO */
@@ -374,13 +419,13 @@ letter-spacing:-0.3px;
 }
 
 #layoutINMETRO{
-    border:1px solid red;
+    border:none;
 }
 
 #layoutINMETRO2{
     width:45mm;
     height:79mm;
-    border:3px solid blue;
+    border:none;
     display:flex !important;
 }
 
@@ -843,12 +888,13 @@ function imprimirEtiqueta(){
 
     if(cliente === "GM"){
 
-        document.body.className = "imprimirGM";
+        document.body.className =
+        "imprimirGM";
 
     }else{
 
-        document.body.className = "imprimirINMETRO";
-
+        document.body.className =
+        "imprimirINMETRO";
     }
 
     window.print();
