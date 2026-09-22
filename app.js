@@ -213,6 +213,8 @@ letter-spacing:-0.3px;
 
 /* INMETRO */
 
+/* INMETRO */
+
 #layoutINMETRO{
     width:90mm;
     height:79mm;
@@ -291,7 +293,9 @@ letter-spacing:-0.3px;
 }
 
 #inmetroDescricaoEN,
-#inmetroDescricaoPT{
+#inmetroDescricaoPT,
+#inmetroDescricaoEN2,
+#inmetroDescricaoPT2{
     font-size:12px;
     font-weight:bold;
 
@@ -308,13 +312,18 @@ letter-spacing:-0.3px;
 #inmetroFabricante,
 #inmetroEndereco,
 #inmetroCidade,
-#inmetroCnpj{
+#inmetroCnpj,
+#inmetroFabricante2,
+#inmetroEndereco2,
+#inmetroCidade2,
+#inmetroCnpj2{
     position:relative;
     left:1mm;
     top:-1mm;
 }
 
-#linhaData{
+#linhaData,
+#linhaData2{
     display:flex;
     align-items:center;
     gap:6.5mm;
@@ -340,6 +349,92 @@ letter-spacing:-0.3px;
 
     left:0mm;
 }
+#containerINMETRO{
+    display:flex;
+    flex-direction:row;
+    gap:3mm;
+}
+#conteudoINMETRO{
+    width:42mm;
+}
+
+
+#layoutINMETRO,
+#layoutINMETRO2{
+    width:45mm;
+    height:79mm;
+    overflow:hidden;
+    background:white;
+}
+
+#layoutINMETRO{
+    border:none;
+}
+
+#layoutINMETRO2{
+    width:45mm;
+    height:79mm;
+    border:none;
+    display:flex !important;
+}
+
+#conteudoINMETRO2{
+    transform:rotate(-90deg);
+    transform-origin:top left;
+
+    position:relative;
+
+    left:-1mm;
+    top:70mm;
+
+    width:42mm;
+}
+#inmetroQuantidade2{
+    font-size:11px;
+    font-weight:bold;
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+
+    position:relative;
+    left:2.5mm;
+    top:2mm;
+}
+#inmetroCodigoCliente2{
+    font-size:20px;
+    font-weight:bold;
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    margin-top:35mm;
+}
+#inmetroData2{
+    font-size:8px;
+    font-weight:bold;
+
+    position:relative;
+    left:1mm;
+}
+
+#inmetroCodigoRastreio2{
+    font-size:8px;
+    font-weight:bold;
+
+    position:relative;
+    left:0mm;
+}
+#inmetroOrigem2,
+#inmetroRegistro2,
+#inmetroSac2{
+    display:none;
+}
+#barcodeINMETRO2{
+    width:100px;
+    height:25px;
+    margin-top:5px;
+
+    position:relative;
+    top:-1mm;
+}
+
 
 @media print {
 
