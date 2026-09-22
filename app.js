@@ -127,7 +127,7 @@ button:hover{
 
 .gm-info{
     width:70%;
-    margin-left:10mm;
+    margin-left:15mm;
 }
 .codigoGM{
     display:flex;
@@ -176,13 +176,6 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    body,
-    html{
-        margin:0;
-        padding:0;
-        overflow:hidden;
-    }
-
     body *{
         visibility:hidden;
     }
@@ -195,7 +188,7 @@ letter-spacing:-0.3px;
     }
 
     body.imprimirGM #layoutGM{
-        position:fixed;
+        position:absolute;
         top:0;
         left:0;
 
@@ -203,6 +196,7 @@ letter-spacing:-0.3px;
         height:50mm;
 
         overflow:hidden;
+        background:white;
     }
 
     /* INMETRO */
@@ -213,7 +207,7 @@ letter-spacing:-0.3px;
     }
 
     body.imprimirINMETRO #containerINMETRO{
-        position:fixed;
+        position:absolute;
         top:0;
         left:0;
 
@@ -221,15 +215,11 @@ letter-spacing:-0.3px;
         height:80mm;
 
         overflow:hidden;
+        background:white;
+        display:flex !important;
     }
 
-    .card,
-    .preview,
-    .header,
-    .conteudo{
-        display:none !important;
-    }
-}
+}  
 
 
 /* INMETRO */
