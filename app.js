@@ -173,56 +173,49 @@ letter-spacing:-0.3px;
     margin-right:20px;
     scale: 0.8;
 }
-
 @media print {
 
-    body *{
-        visibility:hidden;
+    body{
+        margin:0 !important;
+        padding:0 !important;
     }
 
-    /* GM */
-
-    body.imprimirGM #layoutGM,
-    body.imprimirGM #layoutGM *{
-        visibility:visible;
+    .header,
+    label,
+    select,
+    input,
+    button,
+    hr,
+    h3,
+    #campoGM,
+    #campoINMETRO,
+    #campoTipoGM{
+        display:none !important;
     }
 
-    body.imprimirGM #layoutGM{
-        position:absolute;
-        left:0;
-        top:0;
-        width:75mm;
-        height:50mm;
-        overflow:hidden;
-        background:white;
-        z-index:9999;
+    .preview{
+        border:none !important;
+        padding:0 !important;
+        margin:0 !important;
+        background:white !important;
     }
 
     body.imprimirGM #containerINMETRO{
         display:none !important;
     }
 
-    /* INMETRO */
-
-    body.imprimirINMETRO #containerINMETRO,
-    body.imprimirINMETRO #containerINMETRO *{
-        visibility:visible;
-    }
-
-    body.imprimirINMETRO #containerINMETRO{
-        position:absolute;
-        left:0;
-        top:0;
-        width:90mm;
-        height:80mm;
-        display:flex !important;
-        overflow:hidden;
-        background:white;
-        z-index:9999;
+    body.imprimirGM #layoutGM{
+        display:block !important;
+        position:relative !important;
     }
 
     body.imprimirINMETRO #layoutGM{
         display:none !important;
+    }
+
+    body.imprimirINMETRO #containerINMETRO{
+        display:flex !important;
+        position:relative !important;
     }
 }
 
