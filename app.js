@@ -111,7 +111,7 @@ button:hover{
     align-items:center;
     margin-top:2px;
     margin-bottom:4px;
-    margin-left:0px;
+    margin-left:-30px;
 }
 
 #barcodeGM{
@@ -173,51 +173,43 @@ letter-spacing:-0.3px;
     margin-right:20px;
     scale: 0.8;
 }
+
 @media print {
 
+    html,
     body{
-        margin:0 !important;
-        padding:0 !important;
+        width:75mm;
+        height:50mm;
+        margin:0;
+        padding:0;
+        overflow:hidden;
     }
 
-    .header,
-    label,
-    select,
-    input,
-    button,
-    hr,
-    h3,
-    #campoGM,
-    #campoINMETRO,
-    #campoTipoGM{
-        display:none !important;
+    body *{
+        visibility:hidden;
     }
 
-    .preview{
+    body.imprimirGM #layoutGM,
+    body.imprimirGM #layoutGM *{
+        visibility:visible;
+    }
+
+    #layoutGM{
+        position:absolute;
+        left:0;
+        top:0;
         border:none !important;
-        padding:0 !important;
-        margin:0 !important;
-        background:white !important;
-    }
-
-    body.imprimirGM #containerINMETRO{
-        display:none !important;
-    }
-
-    body.imprimirGM #layoutGM{
-        display:block !important;
-        position:relative !important;
-    }
-
-    body.imprimirINMETRO #layoutGM{
-        display:none !important;
-    }
-
-    body.imprimirINMETRO #containerINMETRO{
-        display:flex !important;
-        position:relative !important;
-    }
+        page-break-after:avoid;
+    width:100%;
+    height:100%;
+ }
 }
+
+@page{
+    size:75mm 50mm;
+    margin:0;
+}
+
 
 /* INMETRO */
 
@@ -299,9 +291,7 @@ letter-spacing:-0.3px;
 }
 
 #inmetroDescricaoEN,
-#inmetroDescricaoPT,
-#inmetroDescricaoEN2,
-#inmetroDescricaoPT2{
+#inmetroDescricaoPT{
     font-size:12px;
     font-weight:bold;
 
@@ -318,18 +308,13 @@ letter-spacing:-0.3px;
 #inmetroFabricante,
 #inmetroEndereco,
 #inmetroCidade,
-#inmetroCnpj,
-#inmetroFabricante2,
-#inmetroEndereco2,
-#inmetroCidade2,
-#inmetroCnpj2{
+#inmetroCnpj{
     position:relative;
     left:1mm;
     top:-1mm;
 }
 
-#linhaData,
-#linhaData2{
+#linhaData{
     display:flex;
     align-items:center;
     gap:6.5mm;
@@ -355,99 +340,16 @@ letter-spacing:-0.3px;
 
     left:0mm;
 }
-#containerINMETRO{
-    display:flex;
-    flex-direction:row;
-    gap:3mm;
-}
-#conteudoINMETRO{
-    width:42mm;
-}
 
+@media print {
 
-#layoutINMETRO,
-#layoutINMETRO2{
-    width:45mm;
-    height:79mm;
-    overflow:hidden;
-    background:white;
+    body.imprimirINMETRO #layoutINMETRO,
+    body.imprimirINMETRO #layoutINMETRO *{
+        visibility:visible;
+    }
+
 }
 
-#layoutINMETRO{
-    border:none;
-}
-
-#layoutINMETRO2{
-    width:45mm;
-    height:79mm;
-    border:none;
-    display:flex !important;
-}
-
-#conteudoINMETRO2{
-    transform:rotate(-90deg);
-    transform-origin:top left;
-
-    position:relative;
-
-    left:-1mm;
-    top:70mm;
-
-    width:42mm;
-}
-#inmetroQuantidade2{
-    font-size:11px;
-    font-weight:bold;
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-
-    position:relative;
-    left:2.5mm;
-    top:2mm;
-}
-#inmetroCodigoCliente2{
-    font-size:20px;
-    font-weight:bold;
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-    margin-top:35mm;
-}
-#inmetroData2{
-    font-size:8px;
-    font-weight:bold;
-
-    position:relative;
-    left:1mm;
-}
-
-#inmetroCodigoRastreio2{
-    font-size:8px;
-    font-weight:bold;
-
-    position:relative;
-    left:0mm;
-}
-#inmetroOrigem2,
-#inmetroRegistro2,
-#inmetroSac2{
-    display:none;
-}
-#barcodeINMETRO2{
-    width:100px;
-    height:25px;
-    margin-top:5px;
-
-    position:relative;
-    top:-1mm;
-}
-
-body.imprimirINMETRO #containerINMETRO{
-    position:absolute;
-    left:0;
-    top:0;
-    display:flex !important;
-    visibility:visible !important;
-}
 
 
 </style>
@@ -456,6 +358,7 @@ body.imprimirINMETRO #containerINMETRO{
 
 <body>
 
+<body>
 
 <div class="card">
 
@@ -564,7 +467,6 @@ body.imprimirINMETRO #containerINMETRO{
 </div>
 
 
-<div id="containerINMETRO">
 
 <div id="layoutINMETRO">
 
@@ -651,106 +553,16 @@ body.imprimirINMETRO #containerINMETRO{
         <svg id="barcodeINMETRO"></svg>
 
     </div>
-	</div>
-	
+
+
 
 </div>
 
-   <div id="layoutINMETRO2">
-
-	<div class="inmetro-esquerda">
-
-        <div id="inmetroQuantidade2">
-            1 KIT / UNIT
-        </div>
-
-        <div id="inmetroCodigoCliente2"></div>
-
-    </div>
-
-
-    <div class="inmetro-direita">
-
-<div id="conteudoINMETRO2">
-
-
-
-<div class="inmetro-topo">
-
-    <div class="inmetro-selo"></div>
-
 </div>
-
-<div
-    class="inmetroProduto"
-    id="inmetroCodigoProduto2">
-</div>
-
-      <div
-    	class="inmetroDescricao"
-    	id="inmetroDescricaoEN2">
-     </div>
-
-
-       <div
-	  class="inmetroDescricao"
-	  id="inmetroDescricaoPT2">
-       </div>
-
-        <div
-            class="inmetroTexto"
-            id="inmetroFabricante2">
-        </div>
-
-        <div
-            class="inmetroTexto"
-            id="inmetroEndereco2">
-        </div>
-
-        <div
-            class="inmetroTexto"
-            id="inmetroCidade2">
-        </div>
-
-        <div
-            class="inmetroTexto"
-            id="inmetroCnpj2">
-        </div>
-<div
-    class="inmetroTexto"
-    id="inmetroOrigem2">
-</div>
-
-<div
-    class="inmetroTexto"
-    id="inmetroRegistro2">
-</div>
-
-<div
-    class="inmetroTexto"
-    id="inmetroSac2">
-</div>
-
-<div id="linhaData2">
-
-    <span id="inmetroData2"></span>
-
-    <span id="inmetroCodigoRastreio2"></span>
-
-</div>
-        <svg id="barcodeINMETRO2"></svg>
-
-    </div>
-	</div>
-	
 
 </div>
 </div>
-
-
 </div>
-</div>
-
 <script>
 
 const dados = {
@@ -834,29 +646,25 @@ function carregarClientes(){
         cliente.appendChild(option);
 
     });
-	}
 
+}
 function imprimirEtiqueta(){
 
     const cliente =
         document.getElementById("cliente").value;
 
-    document.body.classList.remove(
-        "imprimirGM",
-        "imprimirINMETRO"
-    );
-
     if(cliente === "GM"){
 
-        document.body.classList.add("imprimirGM");
+        document.body.className = "imprimirGM";
 
     }else{
 
-        document.body.classList.add("imprimirINMETRO");
+        document.body.className = "imprimirINMETRO";
 
     }
 
     window.print();
+
 }
 
 
@@ -938,14 +746,10 @@ function atualizarPreview(){
 
 
 
-
     if(cliente === "GM"){
 
         const produtoInfo =
             dados.GM.produtos[produto];
-			
-		document.getElementById("containerINMETRO")
-    		.style.display = "none";
 
         document.getElementById("layoutGM")
             .style.display = "block";
@@ -1018,12 +822,6 @@ function atualizarPreview(){
         const produtoInfo =
             dados.INMETRO.produtos[produto];
 
-		document.getElementById("containerINMETRO")
-    		.style.display = "flex";
-
-		document.getElementById("layoutINMETRO")
-    		.style.display = "flex";
-
         document.getElementById("layoutINMETRO")
             .style.display = "flex";
 
@@ -1065,7 +863,6 @@ const tipoKit =
 document.getElementById("inmetroQuantidade")
     .innerText =
     tipoKit + " KIT / UNIT";
-
 
 document.getElementById("inmetroOrigem")
     .innerText =
@@ -1171,61 +968,6 @@ document.getElementById(
 ).innerText =
     codigoData;
 
-	document.getElementById("inmetroCodigoCliente2")
-    .innerText = produtoInfo.codigoCliente;
-
-document.getElementById("inmetroCodigoProduto2")
-    .innerText = produto;
-
-document.getElementById("inmetroDescricaoEN2")
-    .innerText = produtoInfo.descricaoEN;
-
-document.getElementById("inmetroDescricaoPT2")
-    .innerText = produtoInfo.descricaoPT;
-
-console.log(
-    document.getElementById("inmetroDescricaoPT2").innerText
-);
-
-document.getElementById("inmetroFabricante2")
-    .innerText = produtoInfo.fabricante;
-
-document.getElementById("inmetroEndereco2")
-    .innerText = produtoInfo.endereco;
-
-document.getElementById("inmetroCidade2")
-    .innerText = produtoInfo.cidade;
-
-document.getElementById("inmetroCnpj2")
-    .innerText = produtoInfo.cnpj;
-
-document.getElementById("inmetroData2")
-    .innerText = dataFormatada;
-
-document.getElementById("inmetroCodigoRastreio2")
-    .innerText = codigoData;
-
-	document.getElementById("inmetroOrigem2")
-    .innerText = produtoInfo.origem;
-
-document.getElementById("inmetroRegistro2")
-    .innerText = produtoInfo.registro;
-
-document.getElementById("inmetroSac2")
-    .innerText = produtoInfo.sac;
-
-	JsBarcode(
-    "#barcodeINMETRO2",
-    produtoInfo.codigoCliente,
-    {
-        format:"CODE128",
-        width:1,
-        height:25,
-        displayValue:false,
-        margin:0
-    }
-);
-
 
 	JsBarcode(
     	     "#barcodeINMETRO",
@@ -1238,12 +980,12 @@ document.getElementById("inmetroSac2")
                 margin:0
     	      }
 );
-document.getElementById("inmetroQuantidade2")
-    .innerText =
-    tipoKit + " KIT / UNIT";
-	}
-	}
 
+
+
+    }
+
+}
 
 window.onload = function(){
 
@@ -1252,7 +994,6 @@ window.onload = function(){
     atualizarProdutos();
 
 };
-
 
 </script>
 
