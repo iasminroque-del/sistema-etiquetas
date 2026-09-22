@@ -563,7 +563,8 @@ body.imprimirINMETRO #containerINMETRO *{
 <div id="containerINMETRO">
 
     <!-- ETIQUETA 1 -->
-     <div id="layoutINMETRO">
+   <!-- ETIQUETA 1 -->
+<div id="layoutINMETRO">
 
     <div class="inmetro-esquerda">
 
@@ -585,7 +586,7 @@ body.imprimirINMETRO #containerINMETRO *{
 
             <div
                 class="inmetroProduto"
-                id="inmetroCodigoProduto2">
+                id="inmetroCodigoProduto">
             </div>
 
             <div
@@ -643,11 +644,7 @@ body.imprimirINMETRO #containerINMETRO *{
 
             <svg id="barcodeINMETRO"></svg>
 
-        </div>
-
-        </div>
-
-    </div>
+</div>
 
     <!-- ETIQUETA 2 -->
 	
