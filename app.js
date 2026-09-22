@@ -176,43 +176,55 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    html,
-    body{
-        margin:0 !important;
-        padding:0 !important;
+    body *{
+        visibility:hidden;
     }
 
     /* GM */
-    body.imprimirGM #layoutGM{
-        display:block !important;
-        position:absolute;
-        top:0;
-        left:0;
 
+    body.imprimirGM #layoutGM,
+    body.imprimirGM #layoutGM *{
+        visibility:visible;
+    }
+
+    body.imprimirGM #layoutGM{
+        position:absolute;
+        left:0;
+        top:0;
         width:75mm;
         height:50mm;
-
         overflow:hidden;
         background:white;
+        z-index:9999;
+    }
+
+    body.imprimirGM #containerINMETRO{
+        display:none !important;
     }
 
     /* INMETRO */
-    body.imprimirINMETRO #containerINMETRO{
-        display:flex !important;
 
-        position:absolute;
-        top:0;
-        left:0;
-
-        width:90mm;
-        height:80mm;
-
-        overflow:hidden;
-        background:white;
+    body.imprimirINMETRO #containerINMETRO,
+    body.imprimirINMETRO #containerINMETRO *{
+        visibility:visible;
     }
 
-}
+    body.imprimirINMETRO #containerINMETRO{
+        position:absolute;
+        left:0;
+        top:0;
+        width:90mm;
+        height:80mm;
+        display:flex !important;
+        overflow:hidden;
+        background:white;
+        z-index:9999;
+    }
 
+    body.imprimirINMETRO #layoutGM{
+        display:none !important;
+    }
+}
 
 /* INMETRO */
 
