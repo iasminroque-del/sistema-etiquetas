@@ -182,11 +182,6 @@ letter-spacing:-0.3px;
         padding:0 !important;
     }
 
-    /* Esconde tudo */
-    .card{
-        display:none !important;
-    }
-
     /* GM */
     body.imprimirGM #layoutGM{
         display:block !important;
