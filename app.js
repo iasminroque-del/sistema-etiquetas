@@ -176,13 +176,18 @@ letter-spacing:-0.3px;
 
 @media print {
 
+    body,
+    html{
+        margin:0;
+        padding:0;
+        overflow:hidden;
+    }
+
     body *{
         visibility:hidden;
     }
 
-    /* ==========================
-       GM - 75mm x 50mm
-       ========================== */
+    /* GM */
 
     body.imprimirGM #layoutGM,
     body.imprimirGM #layoutGM *{
@@ -190,60 +195,15 @@ letter-spacing:-0.3px;
     }
 
     body.imprimirGM #layoutGM{
-
-        position:absolute;
-        left:0;
+        position:fixed;
         top:0;
-
-        width:75mm !important;
-        height:50mm !important;
-
-        padding-left:15mm;
-        box-sizing:border-box;
-        overflow:hidden;
-        background:white;
-    }
-
-    body.imprimirGM .gm-barcode{
-        margin-left:0 !important;
-    }
-
-    body.imprimirGM .gm-info{
-        margin-left:0 !important;
-    }
-
-    /* ==========================
-       INMETRO - 90mm x 80mm
-       ========================== */
-
-    body.imprimirINMETRO #containerINMETRO,
-    body.imprimirINMETRO #containerINMETRO *{
-        visibility:visible;
-    }
-
-    body.imprimirINMETRO #containerINMETRO{
-
-        position:absolute;
         left:0;
-        top:0;
 
-        width:90mm !important;
-        height:80mm !important;
+        width:75mm;
+        height:50mm;
 
-        display:flex !important;
         overflow:hidden;
-        background:white;
     }
-
-    body.imprimirINMETRO #layoutINMETRO{
-        border:none !important;
-    }
-
-    body.imprimirINMETRO #layoutINMETRO2{
-        border:none !important;
-    }
-
-}
 
     /* INMETRO */
 
@@ -253,15 +213,23 @@ letter-spacing:-0.3px;
     }
 
     body.imprimirINMETRO #containerINMETRO{
-        position:absolute;
-        left:0;
+        position:fixed;
         top:0;
-        width:93mm;
-        height:79mm;
-        display:flex !important;
+        left:0;
+
+        width:90mm;
+        height:80mm;
+
+        overflow:hidden;
+    }
+
+    .card,
+    .preview,
+    .header,
+    .conteudo{
+        display:none !important;
     }
 }
-
 
 
 /* INMETRO */
