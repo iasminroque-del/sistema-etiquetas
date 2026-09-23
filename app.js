@@ -890,6 +890,9 @@ function atualizarPreview(){
 	document.getElementById("campoINMETRO")
           .style.display = "none";
 		  
+	document.getElementById("layoutINMETRO2")
+   		 .style.display = "none";
+		  
 	document.getElementById("containerINMETRO")
     	  .style.display = "none";
 
@@ -1007,6 +1010,15 @@ function atualizarPreview(){
         document.getElementById("containerINMETRO")
    			 .style.display = "flex";
 
+		document.getElementById("layoutINMETRO")
+    		.style.display = "flex";
+
+		document.getElementById("layoutINMETRO2")
+    		.style.display = "flex";
+
+		document.getElementById("containerINMETRO")
+    		.style.display = "flex";
+
         document.getElementById("inmetroCodigoCliente")
             .innerText =
             produtoInfo.codigoCliente;
@@ -1038,38 +1050,7 @@ function atualizarPreview(){
         document.getElementById("inmetroCnpj")
             .innerText =
             produtoInfo.cnpj;
-		document.getElementById("inmetroCodigoCliente2")
-    .innerText = produtoInfo.codigoCliente;
-
-document.getElementById("inmetroCodigoProduto2")
-    .innerText = produto;
-
-document.getElementById("inmetroDescricaoEN2")
-    .innerText = produtoInfo.descricaoEN;
-
-document.getElementById("inmetroDescricaoPT2")
-    .innerText = produtoInfo.descricaoPT;
-
-document.getElementById("inmetroFabricante2")
-    .innerText = produtoInfo.fabricante;
-
-document.getElementById("inmetroEndereco2")
-    .innerText = produtoInfo.endereco;
-
-document.getElementById("inmetroCidade2")
-    .innerText = produtoInfo.cidade;
-
-document.getElementById("inmetroCnpj2")
-    .innerText = produtoInfo.cnpj;
-
-document.getElementById("inmetroQuantidade2")
-    .innerText = tipoKit + " KIT / UNIT";
-
-document.getElementById("inmetroData2")
-    .innerText = dataFormatada;
-
-document.getElementById("inmetroCodigoRastreio2")
-    .innerText = codigoData;
+		
 
 const tipoKit =
     document.getElementById("tipoKit").value;
@@ -1176,6 +1157,39 @@ const codigoData =
     semanaTexto.charAt(1) +
 
     letraAno;
+
+	document.getElementById("inmetroCodigoCliente2")
+    .innerText = produtoInfo.codigoCliente;
+
+document.getElementById("inmetroCodigoProduto2")
+    .innerText = produto;
+
+document.getElementById("inmetroDescricaoEN2")
+    .innerText = produtoInfo.descricaoEN;
+
+document.getElementById("inmetroDescricaoPT2")
+    .innerText = produtoInfo.descricaoPT;
+
+document.getElementById("inmetroFabricante2")
+    .innerText = produtoInfo.fabricante;
+
+document.getElementById("inmetroEndereco2")
+    .innerText = produtoInfo.endereco;
+
+document.getElementById("inmetroCidade2")
+    .innerText = produtoInfo.cidade;
+
+document.getElementById("inmetroCnpj2")
+    .innerText = produtoInfo.cnpj;
+
+document.getElementById("inmetroQuantidade2")
+    .innerText = tipoKit + " KIT / UNIT";
+
+document.getElementById("inmetroData2")
+    .innerText = dataFormatada;
+
+document.getElementById("inmetroCodigoRastreio2")
+    .innerText = codigoData;
 
 document.getElementById(
     "inmetroCodigoRastreio"
