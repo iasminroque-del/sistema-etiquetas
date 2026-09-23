@@ -563,7 +563,6 @@ body.imprimirINMETRO #containerINMETRO *{
 <div id="containerINMETRO">
 
     <!-- ETIQUETA 1 -->
-   <!-- ETIQUETA 1 -->
 <div id="layoutINMETRO">
 
     <div class="inmetro-esquerda">
@@ -641,10 +640,11 @@ body.imprimirINMETRO #containerINMETRO *{
                 <span id="inmetroCodigoRastreio"></span>
 
             </div>
+<svg id="barcodeINMETRO"></svg>
 
-            <svg id="barcodeINMETRO"></svg>
-
-</div>
+</div> <!-- conteudoINMETRO -->
+</div> <!-- inmetro-direita -->
+</div> <!-- layoutINMETRO -->
 
     <!-- ETIQUETA 2 -->
 	
