@@ -269,8 +269,8 @@ letter-spacing:-0.3px;
 
 #barcodeINMETRO{
     width:100px;
-    height:25px;
-    margin-top:7px;
+    height:23px;
+    margin-top:5px;
 
     position:relative;
     top:-1mm;
