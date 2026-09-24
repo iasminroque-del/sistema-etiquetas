@@ -16,6 +16,8 @@ res.send(`
 
 <title>Sistema de Etiquetas</title>
 
+<style id="printStyle"></style>
+
 <script 
 src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 
@@ -203,11 +205,6 @@ letter-spacing:-0.3px;
     width:100%;
     height:100%;
  }
-}
-
-@page{
-    size:75mm 50mm;
-    margin:0;
 }
 
 
@@ -432,23 +429,32 @@ letter-spacing:-0.3px;
     top:-1mm;
 }
 
-
 @media print {
 
- body.imprimirINMETRO #containerINMETRO,
-body.imprimirINMETRO #containerINMETRO *{
-    visibility:visible;
-}
+    body *{
+        visibility:hidden;
+    }
+
+    body.imprimirINMETRO #containerINMETRO,
+    body.imprimirINMETRO #containerINMETRO *{
+        visibility:visible;
+    }
+
+    #containerINMETRO{
+        position:absolute;
+        top:0;
+        left:0;
+        display:flex !important;
+    }
 
 }
+
 
 
 
 </style>
 
 </head>
-
-<body>
 
 <body>
 
@@ -832,18 +838,33 @@ function imprimirEtiqueta(){
     const cliente =
         document.getElementById("cliente").value;
 
+    const printStyle =
+        document.getElementById("printStyle");
+
     if(cliente === "GM"){
 
         document.body.className = "imprimirGM";
 
-    }else{
+        printStyle.innerHTML = `
+            @page{
+                size:75mm 50mm;
+                margin:0;
+            }
+        `;
+
+    } else {
 
         document.body.className = "imprimirINMETRO";
 
+        printStyle.innerHTML = `
+            @page{
+                size:90mm 79mm;
+                margin:0;
+            }
+        `;
     }
 
     window.print();
-
 }
 
 
