@@ -844,25 +844,17 @@ function imprimirEtiqueta(){
     if(cliente === "GM"){
 
         document.body.className = "imprimirGM";
-
-        printStyle.innerHTML = `
-            @page{
-                size:75mm 50mm;
-                margin:0;
-            }
-        `;
+		
+printStyle.innerHTML =
+'@page { size:75mm 50mm; margin:0; }';
 
     } else {
 
         document.body.className = "imprimirINMETRO";
 
-        printStyle.innerHTML = `
-            @page{
-                size:90mm 79mm;
-                margin:0;
-            }
-        `;
-    }
+       printStyle.innerHTML =
+'@page { size:90mm 79mm; margin:0; }';
+}
 
     window.print();
 }
