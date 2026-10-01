@@ -129,7 +129,7 @@ button:hover{
 
 .gm-info{
     width:70%;
-    margin-left:10mm;
+    margin-left:15mm;
 }
 .codigoGM{
     display:flex;
@@ -138,20 +138,20 @@ button:hover{
 
 .gmPrefixo{
     font-family: Arial Black, Arial, sans-serif;
-    font-size:14px;
+    font-size:20px;
     font-weight:900;
 }
 
 .gmNumero{
     font-family: Arial Black, Arial, sans-serif;
 	letter-spacing:-1px;
-    font-size:16px;
+    font-size:20px;
     font-weight:900;
 }
 
 .qtyGM{
     font-family: Arial Black, Arial, sans-serif;
-    font-size:12px;
+    font-size:20px;
     font-weight:800;
     margin-top:6px;
 }
@@ -159,54 +159,46 @@ button:hover{
 .descricaoGM{
 font-family: Arial Black, Arial, sans-serif;
 letter-spacing:-0.3px;
-    font-size:10px;
+    font-size:20px;
     font-weight:800;
     margin-top:3px;
 }
 
 .gm-datamatrix{
-    width:23%;
+    width:30%;
     
 }
 
 #datamatrixGM{
-    width:55px;
-    height:55px;
+    width:60px;
+    height:60px;
     margin-right:20px;
     scale: 0.8;
 }
 
 @media print {
 
-    body.imprimirGM .card,
-    body.imprimirGM .conteudo,
-    body.imprimirGM .preview{
-        display:block;
+    body *{
+        visibility:hidden;
+    }
+
+    body.imprimirGM #layoutGM,
+    body.imprimirGM #layoutGM *{
+        visibility:visible;
+    }
+
+    body.imprimirGM #layoutGM{
+        position:absolute;
+        left:15mm;   /* recuo de 1,5 cm */
+        top:0;
+        width:75mm;
+        height:50mm;
+        overflow:hidden;
+        display:block !important;
     }
 
     body.imprimirGM #containerINMETRO{
         display:none !important;
-    }
-
-    body.imprimirGM .header,
-    body.imprimirGM label,
-    body.imprimirGM select,
-    body.imprimirGM input,
-    body.imprimirGM button,
-    body.imprimirGM hr,
-    body.imprimirGM h3,
-    body.imprimirGM #campoINMETRO{
-        display:none !important;
-    }
-
-    body.imprimirGM #layoutGM{
-        display:block !important;
-        position:absolute;
-        width:75mm;
-        height:50mm;
-
-        left:15mm; /* recuo solicitado */
-        top:0;
     }
 }
 
