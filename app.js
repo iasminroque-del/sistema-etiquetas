@@ -178,28 +178,35 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    body.imprimirGM *{
-        visibility:hidden;
+    body.imprimirGM .card,
+    body.imprimirGM .conteudo,
+    body.imprimirGM .preview{
+        display:block;
     }
 
-    body.imprimirGM #layoutGM,
-    body.imprimirGM #layoutGM *{
-        visibility:visible;
+    body.imprimirGM #containerINMETRO{
+        display:none !important;
+    }
+
+    body.imprimirGM .header,
+    body.imprimirGM label,
+    body.imprimirGM select,
+    body.imprimirGM input,
+    body.imprimirGM button,
+    body.imprimirGM hr,
+    body.imprimirGM h3,
+    body.imprimirGM #campoINMETRO{
+        display:none !important;
     }
 
     body.imprimirGM #layoutGM{
-        position:fixed;
-        left:15mm;   /* recuo da esquerda */
-        top:0;
+        display:block !important;
+        position:absolute;
         width:75mm;
         height:50mm;
-        overflow:hidden;
-    }
 
-    body.imprimirGM .card,
-    body.imprimirGM .preview{
-        border:none !important;
-        box-shadow:none !important;
+        left:15mm; /* recuo solicitado */
+        top:0;
     }
 }
 
