@@ -178,16 +178,7 @@ letter-spacing:-0.3px;
 
 @media print {
 
-    html,
-    body{
-        width:75mm;
-        height:50mm;
-        margin:0;
-        padding:0;
-        overflow:hidden;
-    }
-
-    body *{
+    body.imprimirGM *{
         visibility:hidden;
     }
 
@@ -196,17 +187,21 @@ letter-spacing:-0.3px;
         visibility:visible;
     }
 
-    #layoutGM{
-        position:absolute;
-        left:0;
+    body.imprimirGM #layoutGM{
+        position:fixed;
+        left:15mm;   /* recuo da esquerda */
         top:0;
-        border:none !important;
-        page-break-after:avoid;
-    width:100%;
-    height:100%;
- }
-}
+        width:75mm;
+        height:50mm;
+        overflow:hidden;
+    }
 
+    body.imprimirGM .card,
+    body.imprimirGM .preview{
+        border:none !important;
+        box-shadow:none !important;
+    }
+}
 
 /* INMETRO */
 
