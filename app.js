@@ -138,7 +138,7 @@ button:hover{
 
 .gmPrefixo{
     font-family: Arial Black, Arial, sans-serif;
-    font-size:20px;
+    font-size:16px;
     font-weight:900;
 }
 
@@ -151,7 +151,7 @@ button:hover{
 
 .qtyGM{
     font-family: Arial Black, Arial, sans-serif;
-    font-size:20px;
+    font-size:16px;
     font-weight:800;
     margin-top:6px;
 }
@@ -159,13 +159,13 @@ button:hover{
 .descricaoGM{
 font-family: Arial Black, Arial, sans-serif;
 letter-spacing:-0.3px;
-    font-size:20px;
+    font-size:16px;
     font-weight:800;
     margin-top:3px;
 }
 
 .gm-datamatrix{
-    width:30%;
+    width:26%;
     
 }
 
