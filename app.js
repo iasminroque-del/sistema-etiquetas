@@ -3,6 +3,25 @@ const { exec } = require("child_process");
 
 const app = express();
 
+/* LISTA AS IMPRESSORAS INSTALADAS NO WINDOWS */
+app.get("/impressoras", (req, res) => {
+
+ if (process.platform !== "win32") {
+  return res.json({ local: false, impressoras: [] });
+ }
+
+ const cmd = 'powershell -NoProfile -Command "Get-Printer | Select-Object -ExpandProperty Name | ConvertTo-Json"';
+
+ exec(cmd, { encoding: "utf8" }, (erro, saida) => {
+  if (erro) return res.json({ local: false, impressoras: [] });
+  let lista = [];
+  try { lista = JSON.parse(saida || "[]"); } catch (e) { lista = []; }
+  if (!Array.isArray(lista)) lista = [lista];
+  res.json({ local: true, impressoras: lista });
+ });
+
+});
+
 app.get("/", (req, res) => {
 
 res.send(`
@@ -552,4 +571,5 @@ app.listen(PORT, () => {
  console.log("Servidor iniciado na porta " + PORT);
 
 });
+
 
