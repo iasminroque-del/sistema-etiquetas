@@ -1,4 +1,5 @@
 const express = require("express");
+const { exec } = require("child_process");
 
 const app = express();
 
@@ -551,3 +552,4 @@ app.listen(PORT, () => {
  console.log("Servidor iniciado na porta " + PORT);
 
 });
+
