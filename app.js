@@ -3,7 +3,10 @@ const { exec } = require("child_process");
 
 const app = express();
 
-/* LISTA AS IMPRESSORAS INSTALADAS NO WINDOWS */
+/* =========================================================
+   LISTA AS IMPRESSORAS INSTALADAS NO WINDOWS
+   (funciona quando o servidor roda no próprio computador)
+   ========================================================= */
 app.get("/impressoras", (req, res) => {
 
  if (process.platform !== "win32") {
@@ -210,9 +213,7 @@ select:focus,input:focus{outline:2px solid #1565c0}
 
  <div class="passo"><span>6</span>Impressora</div>
  <select id="impressora">
-  <option value="">Selecione a impressora</option>
-  <option>Zebra Linha 1</option>
-  <option>Zebra Linha 2</option>
+  <option value="">Carregando impressoras...</option>
  </select>
 
  <div class="msg" id="msg"></div>
@@ -479,7 +480,6 @@ function etiquetaGM(pn,p,qtd){
  return '<div class="etq gm"><svg viewBox="0 0 75 50" style="width:75mm;height:50mm;display:block">'
   + barcodeSVG(cod, REC+3.2, 3.2, 19.8, 6.6)                          // código de barras
   + txt(REC+3.2, 12.2, 2.5, CALIBRI, cod, 11)                          // 897001582
-  + txt(REC+22.6, 12.2, 2.5, CALIBRI, jul, 6.2)                        // 26237
   + txt(REC, 18.9, 3.1, NARROW, "GM#", 5.9)                            // GM#
   + txt(REC+6.2, 18.8, 4.5, NARROW, pn, (1.86*pn.length).toFixed(2))  // 26272686
   + txt(REC, 25.0, 2.5, NARROW, "QTY.", 5.7)                           // QTY.
@@ -554,7 +554,38 @@ setInterval(function(){
  el("dataHora").textContent=new Date().toLocaleString("pt-BR");
 },1000);
 
-window.onload = carregarClientes;
+/* =========================================================
+   CARREGA AS IMPRESSORAS DO COMPUTADOR
+   ========================================================= */
+const IMPRESSORAS_PADRAO = ["Zebra Linha 1", "Zebra Linha 2"]; // usadas se não conseguir ler do Windows
+
+function carregarImpressoras(){
+ fetch("/impressoras")
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+   const lista = (d.impressoras && d.impressoras.length) ? d.impressoras : IMPRESSORAS_PADRAO;
+   preencherImpressoras(lista);
+  })
+  .catch(function(){ preencherImpressoras(IMPRESSORAS_PADRAO); });
+}
+
+function preencherImpressoras(lista){
+ const salva = localStorage.getItem("impressoraEtiquetas");
+ el("impressora").innerHTML = '<option value="">Selecione a impressora</option>'
+  + lista.map(function(n){
+     return '<option value="'+n+'"'+(n===salva?' selected':'')+'>'+n+'</option>';
+    }).join("");
+ atualizarPreview();
+}
+
+el("impressora").addEventListener("change",function(){
+ localStorage.setItem("impressoraEtiquetas", el("impressora").value);
+});
+
+window.onload = function(){
+ carregarClientes();
+ carregarImpressoras();
+};
 
 </script>
 
@@ -571,5 +602,3 @@ app.listen(PORT, () => {
  console.log("Servidor iniciado na porta " + PORT);
 
 });
-
-
