@@ -307,7 +307,7 @@ const dados = {
 /* Fixos da GM Holográfica */
 const GM_PREFIXO = "89700";
 const GM_UNIDADE = "UNID/UNIT";
-const GM_DATAMATRIX = "{GM}"; // campos: {GM} {QTY} {COD} {DATA}
+const GM_DATAMATRIX = "{GM}|{PT}|{ES}|{EN}"; // campos: {GM} {PT} {ES} {EN} {QTY} {COD} {DATA}
 
 /* =========================================================
    CÓDIGO DE BARRAS CODE 128 (não precisa mexer)
@@ -464,7 +464,14 @@ function atualizarProdutos(){
    ========================================================= */
 function etiquetaGM(pn,p,qtd){
  const cod=GM_PREFIXO+p.codigo, jul=dataJuliana();
- const dmTxt=GM_DATAMATRIX.replace("{GM}",pn).replace("{QTY}",qtd).replace("{COD}",cod).replace("{DATA}",jul);
+ const dmTxt=GM_DATAMATRIX
+  .replace("{GM}",pn)
+  .replace("{PT}",p.descPT)
+  .replace("{ES}",p.descES)
+  .replace("{EN}",p.descEN)
+  .replace("{QTY}",qtd)
+  .replace("{COD}",cod)
+  .replace("{DATA}",jul);
  const qtdTxt=qtd+" "+GM_UNIDADE;
  const REC=13; // 1,3 cm
 
@@ -478,7 +485,7 @@ function etiquetaGM(pn,p,qtd){
  }
 
  return '<div class="etq gm"><svg viewBox="0 0 75 50" style="width:75mm;height:50mm;display:block">'
-  + barcodeSVG(cod, REC+3.2, 3.2, 19.8, 6.6)                          // código de barras
+  + barcodeSVG(pn, REC+3.2, 3.2, 19.8, 6.6)                           // código de barras = GM#
   + txt(REC+3.2, 12.2, 2.5, CALIBRI, cod, 11)                          // 897001582
   + txt(REC, 18.9, 3.1, NARROW, "GM#", 5.9)                            // GM#
   + txt(REC+6.2, 18.8, 4.5, NARROW, pn, (1.86*pn.length).toFixed(2))  // 26272686
@@ -487,7 +494,7 @@ function etiquetaGM(pn,p,qtd){
   + txt(REC, 30.7, 2.9, CALIBRI, p.descPT)                             // descrição PT
   + txt(REC, 34.6, 2.9, CALIBRI, p.descES)                             // descrição ES
   + txt(REC, 38.5, 2.9, CALIBRI, p.descEN)                             // descrição EN
-  + DM.svg(dmTxt, 55.4, 12.3, 12.9)                                    // Data Matrix
+  + DM.svg(dmTxt, 55.4, 12.3, 12.9)                                    // Data Matrix = GM#|PT|ES|EN
   + '</svg></div>';
 }
 
