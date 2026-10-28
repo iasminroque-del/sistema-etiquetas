@@ -5,1256 +5,545 @@ const app = express();
 app.get("/", (req, res) => {
 
 res.send(`
-
 <!DOCTYPE html>
-
-<html>
-
+<html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sistema de Etiquetas</title>
-
-<style id="printStyle"></style>
-
-<script 
-src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-
-<script 
-src="https://unpkg.com/bwip-js/dist/bwip-js-min.js"></script>
 
 <style>
 
+*{box-sizing:border-box;font-family:"Segoe UI",Arial,sans-serif}
+
 body{
-    font-family: Arial, sans-serif;
-    background:#f4f6f9;
-    margin:0;
-    padding:40px 0;
-    display:flex;
-    justify-content:center;
+ margin:0;
+ background:#f3f5f9;
+ color:#1d2433;
+}
+
+header{
+ background:#0b3c7d;
+ color:white;
+ padding:14px 24px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+header h1{margin:0;font-size:20px}
+header small{opacity:.8}
+
+main{
+ display:grid;
+ grid-template-columns:440px 1fr;
+ gap:22px;
+ padding:20px;
+ max-width:1400px;
+ margin:auto;
+}
+
+@media(max-width:900px){
+ main{grid-template-columns:1fr}
 }
 
 .card{
-width:90%;
-    width:1200px;
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 4px 20px rgba(0,0,0,0.15);
+ background:white;
+ border:1px solid #d5dbe5;
+ border-radius:10px;
+ padding:22px;
 }
 
-label{
-    font-weight: bold;
+.passo{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-weight:700;
+ font-size:16px;
+ margin:18px 0 8px;
+}
+
+.passo:first-child{margin-top:0}
+
+.passo span{
+ background:#1565c0;
+ color:white;
+ border-radius:50%;
+ width:26px;
+ height:26px;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ font-size:13px;
 }
 
 select,input{
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
+ width:100%;
+ padding:12px;
+ border:1px solid #d5dbe5;
+ border-radius:6px;
+ font-size:15px;
+ background:white;
 }
 
-button{
-    background:#0078d4;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    cursor:pointer;
-    border-radius:6px;
-    font-weight:bold;
-    transition:0.2s;
-}
-button:hover{
-    background:#106ebe;
-}
-.preview{
-    background:#f8f9fb;
-    margin-top:20px;
-    padding:30px;
-    border-radius:8px;
-    border:1px solid #dce3ea;
-}
-.header{
-    background:#002B5C;
-    color:white;
-    padding:20px 30px;
-    border-bottom:4px solid #0078d4;
+select:focus,input:focus{outline:2px solid #1565c0}
+
+.desc{
+ background:#eef4ff;
+ border-left:4px solid #1565c0;
+ padding:10px 12px;
+ margin-top:8px;
+ font-size:14px;
+ min-height:40px;
 }
 
-.header h1{
-    margin:0;
-    color:white;
-    font-size:34px;
-    font-weight:700;
+.msg{color:#c62828;font-size:13px;margin-top:12px;min-height:16px}
+
+.btn-print{
+ width:100%;
+ margin-top:20px;
+ background:#1b8a3a;
+ color:white;
+ border:none;
+ border-radius:6px;
+ padding:14px;
+ font-size:18px;
+ font-weight:700;
+ cursor:pointer;
 }
 
-.conteudo{
-    padding:30px;
+.btn-print:disabled{background:#9bb5a3;cursor:not-allowed}
+
+.prev-titulo{margin:0 0 20px;font-size:19px}
+
+#preview{display:flex;flex-wrap:wrap;gap:12px;align-content:flex-start}
+
+.vazio{color:#7a8599;text-align:center;padding:60px 0;width:100%}
+
+/* ===== ETIQUETAS (base) ===== */
+
+.etq{
+ position:relative;
+ border:2px solid black;
+ background:white;
+ color:black;
+ overflow:hidden;
 }
 
-/* GM */
+.etq>div{position:absolute;white-space:nowrap;line-height:1}
 
-#layoutGM{
-    width:75mm;
-    height:50mm;
-    padding-top:10px;
-    box-sizing:border-box;
-    overflow:hidden;
-    display:none;
-    background:white;
+/* ===== GM HOLOGRÁFICA 75x50mm ===== */
+
+.gm{width:75mm;height:50mm;border-radius:2mm}
+
+.gmb{font-family:Calibri,Carlito,Arial,sans-serif;font-weight:700;font-size:2.7mm}
+
+.gmc{
+ font-family:"Arial Narrow","Roboto Condensed",Arial,sans-serif;
+ font-weight:700;
+ letter-spacing:-0.03em;
+ display:flex;
+ align-items:baseline;
 }
 
-.gm-barcode{
-    width:100%;
-    display:flex;
-    justify-content:center;
-	 padding-top:5px;
-    align-items:center;
-    margin-top:2px;
-    margin-bottom:4px;
-    margin-left:-30px;
+.gmd{font-family:Calibri,Carlito,Arial,sans-serif;font-weight:700;font-size:3.5mm}
+
+/* ===== INMETRO 80x42mm ===== */
+
+.inm{width:80mm;height:42mm;padding:3mm}
+.inm>div{position:static}
+.inmetroTitulo{font-size:18px;font-weight:bold;font-family:Arial}
+.inmetroDescricao{font-size:10px;margin-top:4px;font-family:Arial}
+.inmetroInfo{font-size:8px;margin-top:4px;font-family:Arial}
+
+/* ===== IMPRESSÃO ===== */
+
+@media print{
+ header,.form,.prev-titulo{display:none!important}
+ body,main{background:white;padding:0;margin:0;display:block}
+ .card{border:none;padding:0}
+ #preview{display:block}
+ .etq{border:none!important;border-radius:0;page-break-after:always;break-after:page}
 }
-
-#barcodeGM{
-    width:180px;
-    height:30px;
-    
-}
-
-.gm-linha{
-    display:flex;
-    justify-content:space-between;
-}
-
-.gm-info{
-    width:70%;
-    margin-left:15mm;
-}
-.codigoGM{
-    display:flex;
-    align-items:flex-end;
-}
-
-.gmPrefixo{
-    font-family: Arial Black, Arial, sans-serif;
-    font-size:16px;
-    font-weight:900;
-}
-
-.gmNumero{
-    font-family: Arial Black, Arial, sans-serif;
-	letter-spacing:-1px;
-    font-size:20px;
-    font-weight:900;
-}
-
-.qtyGM{
-    font-family: Arial Black, Arial, sans-serif;
-    font-size:16px;
-    font-weight:800;
-    margin-top:6px;
-}
-
-.descricaoGM{
-font-family: Arial Black, Arial, sans-serif;
-letter-spacing:-0.3px;
-    font-size:16px;
-    font-weight:800;
-    margin-top:3px;
-}
-
-.gm-datamatrix{
-    width:26%;
-    
-}
-
-#datamatrixGM{
-    width:60px;
-    height:60px;
-    margin-right:20px;
-    scale: 0.8;
-}
-
-@media print {
-
-    body *{
-        visibility:hidden;
-    }
-
-    body.imprimirGM #layoutGM,
-    body.imprimirGM #layoutGM *{
-        visibility:visible;
-    }
-
-    body.imprimirGM #layoutGM{
-        position:absolute;
-        left:15mm;   /* recuo de 1,5 cm */
-        top:0;
-        width:75mm;
-        height:50mm;
-        overflow:hidden;
-        display:block !important;
-    }
-
-    body.imprimirGM #containerINMETRO{
-        display:none !important;
-    }
-}
-
-/* INMETRO */
-
-/* INMETRO */
-
-#layoutINMETRO{
-    width:90mm;
-    height:79mm;
-    border:none;
-    display:none;
-    overflow:hidden;
-    background:white;
-
-    display:flex;
-}
-
-.inmetro-esquerda{
-    width:6mm;
-    border-right:2px solid black;
-    padding-right:0;
-}
-
-#inmetroQuantidade{
-    font-size:11px;
-    font-weight:bold;
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-
-    position:relative;
-    left:2.5mm;
-    top:2mm;
-}
-
-#inmetroCodigoCliente{
-    font-size:20px;
-    font-weight:bold;
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-    margin-top:35mm;
-}
-
-.inmetro-direita{
-    flex:1;
-    padding:2mm;
-}
-
-.inmetroProduto{
-	font-size:16px;
-	font-weight:bold;
-	margin-bottom:2mm;
-}
-
-.inmetroTexto{
-    font-size:9px;
-    line-height:1.2;
-}
-
-#barcodeINMETRO{
-    width:100px;
-    height:23px;
-    margin-top:5px;
-
-    position:relative;
-    top:-1mm;
-}
-
-.inmetro-topo{
-    margin-bottom:2mm;
-}
-
-#conteudoINMETRO{
-    transform:rotate(-90deg);
-    transform-origin:top left;
-
-    position:relative;
-
-    left:-1mm;
-    top:70mm;
-
-    width:70mm;
-}
-
-#inmetroDescricaoEN,
-#inmetroDescricaoPT,
-#inmetroDescricaoEN2,
-#inmetroDescricaoPT2{
-    font-size:12px;
-    font-weight:bold;
-
-    position:relative;
-    top:-2mm;
-}
-
-#inmetroOrigem,
-#inmetroRegistro,
-#inmetroSac{
-    display:none;
-}
-
-#inmetroFabricante,
-#inmetroEndereco,
-#inmetroCidade,
-#inmetroCnpj,
-#inmetroFabricante2,
-#inmetroEndereco2,
-#inmetroCidade2,
-#inmetroCnpj2{
-    position:relative;
-    left:1mm;
-    top:-1mm;
-}
-
-#linhaData,
-#linhaData2{
-    display:flex;
-    align-items:center;
-    gap:6.5mm;
-
-    font-size:8px;
-    font-weight:bold;
-}
-
-#inmetroData{
-    font-size:8px;
-    font-weight:bold;
-
-    position:relative;
-
-    left:1mm;
-}
-
-#inmetroCodigoRastreio{
-    font-size:8px;
-    font-weight:bold;
-
-    position:relative;
-
-    left:0mm;
-}
-#containerINMETRO{
-    display:flex;
-    flex-direction:row;
-    gap:3mm;
-}
-#conteudoINMETRO{
-    width:42mm;
-}
-
-
-#layoutINMETRO,
-#layoutINMETRO2{
-    width:45mm;
-    height:79mm;
-    overflow:hidden;
-    background:white;
-}
-
-#layoutINMETRO,
-#layoutINMETRO2{
-    width:45mm;
-    height:79mm;
-    border:none;
-    display:flex !important;
-}
-
-#conteudoINMETRO2{
-    transform:rotate(-90deg);
-    transform-origin:top left;
-
-    position:relative;
-
-    left:-1mm;
-    top:70mm;
-
-    width:42mm;
-}
-#inmetroQuantidade2{
-    font-size:11px;
-    font-weight:bold;
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-
-    position:relative;
-    left:2.5mm;
-    top:2mm;
-}
-#inmetroCodigoCliente2{
-    font-size:20px;
-    font-weight:bold;
-    writing-mode:vertical-rl;
-    transform:rotate(180deg);
-    margin-top:35mm;
-}
-#inmetroData2{
-    font-size:8px;
-    font-weight:bold;
-
-    position:relative;
-    left:1mm;
-}
-
-#inmetroCodigoRastreio2{
-    font-size:8px;
-    font-weight:bold;
-
-    position:relative;
-    left:0mm;
-}
-#inmetroOrigem2,
-#inmetroRegistro2,
-#inmetroSac2{
-    display:none;
-}
-#barcodeINMETRO2{
-    width:100px;
-    height:25px;
-    margin-top:5px;
-
-    position:relative;
-    top:-1mm;
-}
-
-@media print {
-
-    body *{
-        visibility:hidden;
-    }
-
-    body.imprimirINMETRO #containerINMETRO,
-    body.imprimirINMETRO #containerINMETRO *{
-        visibility:visible;
-    }
-
-    #containerINMETRO{
-        position:absolute;
-        top:0;
-        left:0;
-        display:flex !important;
-    }
-
-}
-
-
-
 
 </style>
+
+<style id="pageSize">@page{size:75mm 50mm;margin:0}</style>
 
 </head>
 
 <body>
 
-<div class="card">
+<header>
+ <div>
+  <h1>Sistema de Etiquetas</h1>
+  <small>Identificação de materiais por cliente</small>
+ </div>
+ <small id="dataHora"></small>
+</header>
 
-    <div class="header">
-        <h1>Sistema de Etiquetas</h1>
-    </div>
+<main>
 
-    <div class="conteudo">
+<section class="card form">
 
-<label>Cliente</label>
+ <div class="passo"><span>1</span>Cliente</div>
+ <select id="cliente"></select>
 
-<select id="cliente" onchange="atualizarProdutos()">
-</select>
+ <div class="passo"><span>2</span>Tipo de etiqueta</div>
+ <select id="tipo"></select>
 
-<label>Produto</label>
+ <div class="passo"><span>3</span>Part Number</div>
+ <input id="produto" list="listaPN" placeholder="Digite ou selecione o Part Number">
+ <datalist id="listaPN"></datalist>
+ <div class="desc" id="descricao">Descrição do material aparecerá aqui</div>
 
-<select id="produto" onchange="atualizarPreview()">
-</select>
+ <div class="passo"><span>4</span>Quantidade de peças por embalagem</div>
+ <input id="quantidade" type="number" min="1" placeholder="Ex: 50">
 
-<label>Impressora</label>
+ <div class="passo"><span>5</span>Quantidade de etiquetas</div>
+ <input id="copias" type="number" min="1" max="500" value="1">
 
-<select>
-    <option>LIMP00121</option>
-    <option>Zebra Linha 2</option>
-</select>
+ <div class="passo"><span>6</span>Impressora</div>
+ <select id="impressora">
+  <option value="">Selecione a impressora</option>
+  <option>Zebra Linha 1</option>
+  <option>Zebra Linha 2</option>
+ </select>
 
-<div id="campoGM">
+ <div class="msg" id="msg"></div>
 
-    <label>Quantidade de Etiquetas</label>
+ <button class="btn-print" id="btnImprimir" type="button" disabled>🖨️ Imprimir</button>
 
-    <input id="qtdeEtiquetas"
-           type="number"
-           value="1"
-           min="1"
-           oninput="atualizarPreview()">
+</section>
 
-</div>
-<div id="campoINMETRO" style="display:none;">
+<section class="card">
+ <h3 class="prev-titulo">Pré-visualização</h3>
+ <div id="preview">
+  <div class="vazio">Preencha os campos para visualizar a etiqueta</div>
+ </div>
+</section>
 
-    <label>Quantidade do Kit</label>
+</main>
 
-    <select id="tipoKit" onchange="atualizarPreview()">
-        <option value="1">1 KIT / UNIT</option>
-        <option value="8">8 KIT / UNIT</option>
-    </select>
-
-</div>
-
-
-<div id="campoTipoGM">
-
-    <label>Múltiplo</label>
-
-    <select id="tipoQuantidade" onchange="atualizarPreview()">
-        <option value="0008">0008</option>
-        <option value="01">01</option>
-    </select>
-
-</div>
-
-
-<button onclick="imprimirEtiqueta()">
-    Imprimir
-</button>
-
-<hr>
-
-<h3>Pré-visualização da Etiqueta</h3>
-
-<div class="preview">
-
-<div id="layoutGM">
-
-    <div class="gm-barcode">
-        <svg id="barcodeGM"></svg>
-    </div>
-
-    <div class="gm-linha">
-
-        <div class="gm-info">
-
-            <div class="codigoGM" id="gmCodigo"></div>
-
-            <div class="qtyGM" id="gmQuantidade"></div>
-
-            <div class="descricaoGM" id="gmDescricaoPT"></div>
-
-            <div class="descricaoGM" id="gmDescricaoES"></div>
-
-            <div class="descricaoGM" id="gmDescricaoEN"></div>
-
-        </div>
-
-        <div class="gm-datamatrix">
-
-            <canvas
-                id="datamatrixGM"
-                width="90"
-                height="90">
-            </canvas>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<div id="containerINMETRO">
-
-    <!-- ETIQUETA 1 -->
-<div id="layoutINMETRO">
-
-    <div class="inmetro-esquerda">
-
-        <div id="inmetroQuantidade">
-            1 KIT / UNIT
-        </div>
-
-        <div id="inmetroCodigoCliente"></div>
-
-    </div>
-
-    <div class="inmetro-direita">
-
-        <div id="conteudoINMETRO">
-
-            <div class="inmetro-topo">
-                <div class="inmetro-selo"></div>
-            </div>
-
-            <div
-                class="inmetroProduto"
-                id="inmetroCodigoProduto">
-            </div>
-
-            <div
-                class="inmetroDescricao"
-                id="inmetroDescricaoEN">
-            </div>
-
-            <div
-                class="inmetroDescricao"
-                id="inmetroDescricaoPT">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroFabricante">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroEndereco">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroCidade">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroCnpj">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroOrigem">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroRegistro">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroSac">
-            </div>
-
-            <div id="linhaData">
-
-                <span id="inmetroData"></span>
-
-                <span id="inmetroCodigoRastreio"></span>
-
-            </div>
-<svg id="barcodeINMETRO"></svg>
-
-</div> <!-- conteudoINMETRO -->
-</div> <!-- inmetro-direita -->
-</div> <!-- layoutINMETRO -->
-
-    <!-- ETIQUETA 2 -->
-	
- <div id="layoutINMETRO2">
-
-    <div class="inmetro-esquerda">
-
-        <div id="inmetroQuantidade2">
-            1 KIT / UNIT
-        </div>
-
-        <div id="inmetroCodigoCliente2"></div>
-
-    </div>
-
-    <div class="inmetro-direita">
-
-        <div id="conteudoINMETRO2">
-
-            <div class="inmetro-topo">
-                <div class="inmetro-selo"></div>
-            </div>
-
-            <div
-                class="inmetroProduto"
-                id="inmetroCodigoProduto2">
-            </div>
-
-            <div
-                class="inmetroDescricao"
-                id="inmetroDescricaoEN2">
-            </div>
-
-            <div
-                class="inmetroDescricao"
-                id="inmetroDescricaoPT2">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroFabricante2">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroEndereco2">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroCidade2">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroCnpj2">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroOrigem2">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroRegistro2">
-            </div>
-
-            <div
-                class="inmetroTexto"
-                id="inmetroSac2">
-            </div>
-
-            <div id="linhaData2">
-
-                <span id="inmetroData2"></span>
-
-                <span id="inmetroCodigoRastreio2"></span>
-
-            </div>
-
-            <svg id="barcodeINMETRO2"></svg>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-</div>
-
-</div>
-
-</div>
-</div>
-</div>
 <script>
+
+/* =========================================================
+   DADOS – EDITE AQUI
+   cliente -> tipos de etiqueta -> part numbers
+   ========================================================= */
 
 const dados = {
 
-    GM: {
+ GM: {
 
-        produtos: {
+  tipos: {
 
-            "52171287": {
-                descricaoPT: 'PASTILHAS 14"',
-		descricaoEN: 'PADS 14"',
-		descricaoES: 'PASTILLAS 14"'
-            },
+   "GM Holográfica": {
 
-            "52171288": {
-                descricaoPT: 'PASTILHAS 15"',
-		descricaoEN: 'PADS 15"',
-		descricaoES: 'PASTILLAS 15"'
-            }
+    layout: "gmHolo", largura: 75, altura: 50,
 
-        }
+    produtos: {
 
-    },
+     "26272686": {
+      descPT: "CJ. SERVO FREI",
+      descES: "CJ. FRENO SERV",
+      descEN: "ASSY BOOS",
+      codigo: "1582"
+     },
 
-    INMETRO: {
+     "52171287": {
+      descPT: 'PASTILHAS 14"',
+      descES: 'PASTILLAS 14"',
+      descEN: 'PADS 14"',
+      codigo: "0000"
+     },
 
-        produtos: {
-
-            "A038M863": {
-
-                codigoCliente: "52171287",
-		
-		quantidade: "1 KIT / UNIT",
-
-                descricaoEN:
-                "PADS KIT, DISC BRAKE",
-
-                descricaoPT:
-                "CJ DE PASTILHAS, FREIO A DISCO",
-
-                fabricante:
-                "ZF AUTOMOTIVE",
-
-                endereco:
-                "VIA ANHANGUERA KM 147",
-
-                cidade:
-                "13486-915 LIMEIRA SP BRAZIL",
-
-                cnpj:
-                "CNPJ 60.857.349/0001 76",
-
-registro: "004484/2019",
-
-sac: "0800 0111 100",
-
-origem: "MADE IN MEXICO"
-
-
-            }
-
-        }
+     "52171288": {
+      descPT: 'PASTILHAS 15"',
+      descES: 'PASTILLAS 15"',
+      descEN: 'PADS 15"',
+      codigo: "0000"
+     }
 
     }
 
+   },
+
+   "INMETRO": {
+
+    layout: "inmetro", largura: 80, altura: 42,
+
+    produtos: {
+
+     "A038M863": {
+      codigoCliente: "52171287",
+      descricaoEN: "PADS KIT, DISC BRAKE",
+      descricaoPT: "CJ DE PASTILHAS, FREIO A DISCO",
+      fabricante: "TRW AUTOMOTIVE",
+      endereco: "VIA ANHANGUERA KM 147",
+      cidade: "13486 915 LIMEIRA SP BRAZIL",
+      cnpj: "60.857.349/0001 76"
+     }
+
+    }
+
+   }
+
+  }
+
+ }
+
+ // STELLANTIS: { tipos: { ... } },
+ // HONDA:      { tipos: { ... } }
+
 };
 
+/* Fixos da GM Holográfica */
+const GM_PREFIXO = "89700";
+const GM_UNIDADE = "UNID/UNIT";
+const GM_DATAMATRIX = "{GM}"; // campos: {GM} {QTY} {COD} {DATA}
+
+/* =========================================================
+   CÓDIGO DE BARRAS CODE 128 (não precisa mexer)
+   ========================================================= */
+
+const C128=["212222","222122","222221","121223","121322","131222","122213","122312","132212","221213","221312","231212","112232","122132","122231","113222","123122","123221","223211","221132","221231","213212","223112","312131","311222","321122","321221","312212","322112","322211","212123","212321","232121","111323","131123","131321","112313","132113","132311","211313","231113","231311","112133","112331","132131","113123","113321","133121","313121","211331","231131","213113","213311","213131","311123","311321","331121","312113","312311","332111","314111","221411","431111","111224","111422","121124","121421","141122","141221","112214","112412","122114","122411","142112","142211","241211","221114","413111","241112","134111","111242","121142","121241","114212","124112","124211","411212","421112","421211","212141","214121","412121","111143","111341","131141","114113","114311","411113","411311","113141","114131","311141","411131","211412","211214","211232","2331112"];
+
+function barcodeSVG(texto, alturaMm, larguraMm){
+ const vals=[104]; let soma=104;
+ texto.split("").forEach(function(c,i){
+  const v=Math.max(0,Math.min(94,c.charCodeAt(0)-32));
+  vals.push(v); soma+=v*(i+1);
+ });
+ vals.push(soma%103); vals.push(106);
+ let x=10, rects="";
+ vals.forEach(function(v){
+  C128[v].split("").forEach(function(w,j){
+   w=+w;
+   if(j%2===0) rects+='<rect x="'+x+'" y="0" width="'+w+'" height="100"/>';
+   x+=w;
+  });
+ });
+ x+=10;
+ return '<svg viewBox="0 0 '+x+' 100" preserveAspectRatio="none" style="width:'+larguraMm+'mm;height:'+alturaMm+'mm;display:block">'+rects+'</svg>';
+}
+
+/* =========================================================
+   DATA MATRIX ECC200 (não precisa mexer)
+   ========================================================= */
+
+const DM=(function(){
+ const EXP=new Array(512),LOG=new Array(256);let x=1;
+ for(let i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&256)x^=0x12D;}
+ for(let i=255;i<512;i++)EXP[i]=EXP[i-255];
+ const mul=function(a,b){return a&&b?EXP[LOG[a]+LOG[b]]:0;};
+ const SZ=[[10,3,5,1],[12,5,7,1],[14,8,10,1],[16,12,12,1],[18,18,14,1],[20,22,18,1],[22,30,20,1],[24,36,24,1],[26,44,28,1],[32,62,36,2],[36,86,42,2],[40,114,48,2],[44,144,56,2],[48,174,68,2]];
+ function encodeASCII(s){
+  const b=new TextEncoder().encode(s),o=[];
+  for(let i=0;i<b.length;i++){
+   const c=b[i],n=b[i+1];
+   if(c>=48&&c<=57&&n>=48&&n<=57){o.push(130+(c-48)*10+(n-48));i++;}
+   else if(c<128)o.push(c+1); else {o.push(235,c-127);}
+  }
+  return o;
+ }
+ function rs(data,n){
+  let g=[1];
+  for(let i=1;i<=n;i++){const ng=new Array(g.length+1).fill(0);
+   for(let j=0;j<g.length;j++){ng[j]^=g[j];ng[j+1]^=mul(g[j],EXP[i]);}g=ng;}
+  const e=new Array(n).fill(0);
+  for(const d of data){const f=d^e[0];e.shift();e.push(0);for(let k=0;k<n;k++)e[k]^=mul(g[k+1],f);}
+  return e;
+ }
+ function encode(s){
+  const cw=encodeASCII(s);
+  const sz=SZ.find(function(z){return z[1]>=cw.length;});
+  if(!sz) throw new Error("Conteúdo grande demais para o Data Matrix");
+  const N=sz[0],nd=sz[1],ne=sz[2],R=sz[3];
+  if(cw.length<nd){cw.push(129);while(cw.length<nd){let p=129+((149*(cw.length+1))%253)+1;if(p>254)p-=254;cw.push(p);}}
+  const all=cw.concat(rs(cw,ne));
+  const d=N/R-2,nrow=d*R,ncol=d*R,A=new Array(nrow*ncol).fill(0);
+  function mod(r,c,ch,bit){if(r<0){r+=nrow;c+=4-((nrow+4)%8);}if(c<0){c+=ncol;r+=4-((ncol+4)%8);}A[r*ncol+c]=ch*10+bit;}
+  function utah(r,c,ch){mod(r-2,c-2,ch,1);mod(r-2,c-1,ch,2);mod(r-1,c-2,ch,3);mod(r-1,c-1,ch,4);mod(r-1,c,ch,5);mod(r,c-2,ch,6);mod(r,c-1,ch,7);mod(r,c,ch,8);}
+  function c1(ch){mod(nrow-1,0,ch,1);mod(nrow-1,1,ch,2);mod(nrow-1,2,ch,3);mod(0,ncol-2,ch,4);mod(0,ncol-1,ch,5);mod(1,ncol-1,ch,6);mod(2,ncol-1,ch,7);mod(3,ncol-1,ch,8);}
+  function c2(ch){mod(nrow-3,0,ch,1);mod(nrow-2,0,ch,2);mod(nrow-1,0,ch,3);mod(0,ncol-4,ch,4);mod(0,ncol-3,ch,5);mod(0,ncol-2,ch,6);mod(0,ncol-1,ch,7);mod(1,ncol-1,ch,8);}
+  function c3(ch){mod(nrow-3,0,ch,1);mod(nrow-2,0,ch,2);mod(nrow-1,0,ch,3);mod(0,ncol-2,ch,4);mod(0,ncol-1,ch,5);mod(1,ncol-1,ch,6);mod(2,ncol-1,ch,7);mod(3,ncol-1,ch,8);}
+  function c4(ch){mod(nrow-1,0,ch,1);mod(nrow-1,ncol-1,ch,2);mod(0,ncol-3,ch,3);mod(0,ncol-2,ch,4);mod(0,ncol-1,ch,5);mod(1,ncol-3,ch,6);mod(1,ncol-2,ch,7);mod(1,ncol-1,ch,8);}
+  let ch=1,row=4,col=0;
+  do{
+   if(row===nrow&&col===0)c1(ch++);
+   if(row===nrow-2&&col===0&&ncol%4)c2(ch++);
+   if(row===nrow-2&&col===0&&ncol%8===4)c3(ch++);
+   if(row===nrow+4&&col===2&&!(ncol%8))c4(ch++);
+   do{if(row<nrow&&col>=0&&!A[row*ncol+col])utah(row,col,ch++);row-=2;col+=2;}while(row>=0&&col<ncol);
+   row+=1;col+=3;
+   do{if(row>=0&&col<ncol&&!A[row*ncol+col])utah(row,col,ch++);row+=2;col-=2;}while(row<nrow&&col>=0);
+   row+=3;col+=1;
+  }while(row<nrow||col<ncol);
+  if(!A[nrow*ncol-1]){A[nrow*ncol-1]=-1;A[(nrow-1)*ncol-2]=-1;A[nrow*ncol-2]=-2;A[(nrow-1)*ncol-1]=-2;}
+  const M=[];for(let i=0;i<N;i++)M.push(new Array(N).fill(0));
+  for(let ry=0;ry<R;ry++)for(let rx=0;rx<R;rx++){
+   const oy=ry*(d+2),ox=rx*(d+2);
+   for(let i=0;i<d+2;i++){M[oy+i][ox]=1;M[oy+d+1][ox+i]=1;if(i%2===0)M[oy][ox+i]=1;if(i%2===1)M[oy+i][ox+d+1]=1;}
+  }
+  for(let i=0;i<nrow;i++)for(let j=0;j<ncol;j++){
+   const v=A[i*ncol+j];let on;
+   if(v===-1)on=1;else if(v===-2)on=0;else{const c=Math.floor(v/10),b=v%10;on=(all[c-1]>>(8-b))&1;}
+   M[Math.floor(i/d)*(d+2)+1+i%d][Math.floor(j/d)*(d+2)+1+j%d]=on;
+  }
+  return {M:M,N:N};
+ }
+ function svg(s,sizeMm){
+  const r=encode(s);let p="";
+  for(let y=0;y<r.N;y++)for(let c=0;c<r.N;c++)if(r.M[y][c])p+="M"+c+" "+y+"h1v1h-1z";
+  return '<svg viewBox="0 0 '+r.N+' '+r.N+'" shape-rendering="crispEdges" style="width:'+sizeMm+'mm;height:'+sizeMm+'mm;display:block"><path d="'+p+'"/></svg>';
+ }
+ return {svg:svg};
+})();
+
+/* =========================================================
+   LÓGICA DO APP
+   ========================================================= */
+
+function el(id){ return document.getElementById(id); }
+
+function dataJuliana(){
+ const d=new Date();
+ const dia=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5);
+ return String(d.getFullYear()).slice(2)+String(dia).padStart(3,"0");
+}
+
+function tipoAtual(){
+ const c=dados[el("cliente").value];
+ return c ? c.tipos[el("tipo").value] : null;
+}
+
+function produtoAtual(){
+ const t=tipoAtual();
+ if(!t) return null;
+ const pn=el("produto").value.trim().toUpperCase();
+ return t.produtos[pn] ? {pn:pn, info:t.produtos[pn]} : null;
+}
+
 function carregarClientes(){
-
-    const cliente =
-        document.getElementById("cliente");
-
-    Object.keys(dados).forEach(nome => {
-
-        let option =
-            document.createElement("option");
-
-        option.value = nome;
-        option.text = nome;
-
-        cliente.appendChild(option);
-
-    });
-
-}
-function imprimirEtiqueta(){
-
-    const cliente =
-        document.getElementById("cliente").value;
-
-    const printStyle =
-        document.getElementById("printStyle");
-
-    if(cliente === "GM"){
-
-        document.body.className = "imprimirGM";
-		
-printStyle.innerHTML =
-'@page { size:75mm 50mm; margin:0; }';
-
-    } else {
-
-        document.body.className = "imprimirINMETRO";
-
-       printStyle.innerHTML =
-'@page { size:90mm 79mm; margin:0; }';
+ el("cliente").innerHTML=Object.keys(dados).map(function(c){
+  return '<option value="'+c+'">'+c+'</option>';
+ }).join("");
+ atualizarTipos();
 }
 
-    window.print();
+function atualizarTipos(){
+ const tipos=Object.keys(dados[el("cliente").value].tipos);
+ el("tipo").innerHTML=tipos.map(function(t){
+  return '<option value="'+t+'">'+t+'</option>';
+ }).join("");
+ atualizarProdutos();
 }
-
 
 function atualizarProdutos(){
+ const t=tipoAtual();
+ el("listaPN").innerHTML=Object.keys(t.produtos).map(function(pn){
+  const p=t.produtos[pn];
+  return '<option value="'+pn+'">'+(p.descPT||p.descricaoPT)+'</option>';
+ }).join("");
+ el("produto").value="";
+ atualizarPreview();
+}
 
-    const cliente =
-        document.getElementById("cliente").value;
+/* ----- Layout GM Holográfica (posições em % de 75x50mm) ----- */
+function etiquetaGM(pn,p,qtd){
+ function X(v){return (v*75/100)+"mm";}
+ function Y(v){return (v*50/100)+"mm";}
+ const cod=GM_PREFIXO+p.codigo, jul=dataJuliana();
+ const dmTxt=GM_DATAMATRIX.replace("{GM}",pn).replace("{QTY}",qtd).replace("{COD}",cod).replace("{DATA}",jul);
+ return '<div class="etq gm">'
+  +'<div style="left:'+X(25.2)+';top:'+Y(6.3)+'">'+barcodeSVG(cod,6.6,20)+'</div>'
+  +'<div class="gmb" style="left:'+X(25.2)+';top:'+Y(20.6)+'">'+cod+'</div>'
+  +'<div class="gmb" style="left:'+X(51.5)+';top:'+Y(20.6)+'">'+jul+'</div>'
+  +'<div class="gmc" style="left:'+X(21.2)+';top:'+Y(29.5)+'"><span style="font-size:3.2mm">GM#</span><span style="font-size:5.2mm">'+pn+'</span></div>'
+  +'<div class="gmc" style="left:'+X(21.2)+';top:'+Y(39.6)+'"><span style="font-size:2.6mm">QTY.</span><span style="font-size:5.4mm;margin-left:.4em">'+qtd+' '+GM_UNIDADE+'</span></div>'
+  +'<div class="gmd" style="left:'+X(21.1)+';top:'+Y(56.5)+'">'+p.descPT+'</div>'
+  +'<div class="gmd" style="left:'+X(21.1)+';top:'+Y(64.3)+'">'+p.descES+'</div>'
+  +'<div class="gmd" style="left:'+X(21.1)+';top:'+Y(72.1)+'">'+p.descEN+'</div>'
+  +'<div style="left:'+X(73.8)+';top:'+Y(24.4)+'">'+DM.svg(dmTxt,13)+'</div>'
+  +'</div>';
+}
 
-    const produto =
-        document.getElementById("produto");
-
-    produto.innerHTML = "";
-
-    Object.keys(
-        dados[cliente].produtos
-    ).forEach(codigo => {
-
-        let option =
-            document.createElement("option");
-
-        option.value = codigo;
-        option.text = codigo;
-
-        produto.appendChild(option);
-
-    });
-
-    atualizarPreview();
-
+/* ----- Layout INMETRO 80x42mm ----- */
+function etiquetaINMETRO(pn,p){
+ return '<div class="etq inm">'
+  +'<div class="inmetroTitulo">'+p.codigoCliente+'</div>'
+  +'<div class="inmetroTitulo">'+pn+'</div>'
+  +'<div class="inmetroDescricao">'+p.descricaoEN+'</div>'
+  +'<div class="inmetroDescricao">'+p.descricaoPT+'</div>'
+  +'<div class="inmetroInfo">'+p.fabricante+'</div>'
+  +'<div class="inmetroInfo">'+p.endereco+'</div>'
+  +'<div class="inmetroInfo">'+p.cidade+'</div>'
+  +'<div class="inmetroInfo">'+p.cnpj+'</div>'
+  +'</div>';
 }
 
 function atualizarPreview(){
+ const t=tipoAtual(), prod=produtoAtual();
+ const qtd=parseInt(el("quantidade").value,10);
+ const copias=parseInt(el("copias").value,10);
+ let erro="";
 
-    const cliente =
-        document.getElementById("cliente").value;
+ if(prod){
+  const p=prod.info;
+  el("descricao").textContent = t.layout==="gmHolo"
+   ? p.descPT+" | "+p.descES+" | "+p.descEN
+   : p.descricaoPT+" | Cód. cliente: "+p.codigoCliente;
+ } else {
+  el("descricao").textContent = el("produto").value
+   ? "⚠️ Part Number não encontrado para este cliente/tipo"
+   : "Descrição do material aparecerá aqui";
+ }
 
+ if(el("quantidade").value && !(qtd>0)) erro="Quantidade de peças inválida.";
+ if(el("copias").value && !(copias>=1 && copias<=500)) erro="Quantidade de etiquetas deve ser entre 1 e 500.";
+ el("msg").textContent=erro;
 
+ const ok = prod && qtd>0 && copias>=1 && copias<=500 && el("impressora").value && !erro;
+ el("btnImprimir").disabled = !ok;
 
-	if(cliente === "GM"){
-
-	document.getElementById("campoGM")
-          .style.display = "block";
-
-	document.getElementById("campoINMETRO")
-          .style.display = "none";
-		  
-	document.getElementById("layoutINMETRO2")
-   		 .style.display = "none";
-		  
-	document.getElementById("containerINMETRO")
-    	  .style.display = "none";
-
-	document.getElementById("campoTipoGM")
-	  .style.display = "block";
+ if(prod && qtd>0){
+  const n=Math.min(Math.max(copias||1,1),500);
+  const html = t.layout==="gmHolo" ? etiquetaGM(prod.pn,prod.info,qtd) : etiquetaINMETRO(prod.pn,prod.info);
+  el("preview").innerHTML = html.repeat(n);
+  el("pageSize").textContent = "@page{size:"+t.largura+"mm "+t.altura+"mm;margin:0}";
+ } else {
+  el("preview").innerHTML = '<div class="vazio">Preencha os campos para visualizar a etiqueta</div>';
+ }
 }
 
-
-	if(cliente === "INMETRO"){
-
-	document.getElementById("campoGM")
-          .style.display = "none";
-
-	document.getElementById("campoINMETRO")
-          .style.display = "block";
-
-	document.getElementById("campoTipoGM")
-	  .style.display = "none";
-}
-
-
-    const produto =
-        document.getElementById("produto").value;
-
-    const qtdeEtiquetas =
-        document.getElementById("qtdeEtiquetas").value;
-
-    const tipoQuantidade =
-    	document.getElementById("tipoQuantidade").value;
-
-    document.getElementById("layoutGM")
-        .style.display = "none";
-
-    document.getElementById("layoutINMETRO")
-        .style.display = "none";
-
-
-
-    if(cliente === "GM"){
-
-        const produtoInfo =
-            dados.GM.produtos[produto];
-
-        document.getElementById("layoutGM")
-            .style.display = "block";
-
-      document.getElementById("gmCodigo")
-    .innerHTML =
-    '<span class="gmPrefixo">GM#</span>' +
-    '<span class="gmNumero">' + produto + '</span>';
-
-     if(tipoQuantidade === "0008"){
-
-         document.getElementById("gmQuantidade")
-            .innerText =
-            "QTY. 0008";
-
-}
-
-      if(tipoQuantidade === "01"){
-
-          document.getElementById("gmQuantidade")
-           .innerText =
-           "QTY. 01 UNID/UNIT";
-}
-
-        document.getElementById("gmDescricaoPT")
-    	    .innerText =
-            produtoInfo.descricaoPT;
-
-	document.getElementById("gmDescricaoEN")
-            .innerText =
-            produtoInfo.descricaoEN;
-
-	document.getElementById("gmDescricaoES")
-           .innerText =
-            produtoInfo.descricaoES;
-
-	console.log("Gerando barcode para:", produto);
-
-	JsBarcode(
-    		"#barcodeGM",
-    		produto,
-    		{
-       			format: "CODE128",
-        		width: 1.2,
-        		height: 25,
-        		displayValue: false,
-			margin: 0
-    		}
-	);
-	const conteudoDataMatrix =
-	"CODIGO:" + produto +
-	"|PT:" + produtoInfo.descricaoPT +
-	"|EN:" + produtoInfo.descricaoEN +
-	"|ES:" + produtoInfo.descricaoES;
-
-	bwipjs.toCanvas(
-    	"datamatrixGM",
-    	{
-        bcid: "datamatrix",
-        text: conteudoDataMatrix,
-        scale: 1
-    }
-);
-
-	console.log("barcode criado");
-	}
-
-    if(cliente === "INMETRO"){
-
-        const produtoInfo =
-            dados.INMETRO.produtos[produto];
-
-        document.getElementById("containerINMETRO")
-   			 .style.display = "flex";
-
-		document.getElementById("layoutINMETRO")
-    		.style.display = "flex";
-
-		document.getElementById("layoutINMETRO2")
-    		.style.display = "flex";
-
-		document.getElementById("containerINMETRO")
-    		.style.display = "flex";
-
-        document.getElementById("inmetroCodigoCliente")
-            .innerText =
-            produtoInfo.codigoCliente;
-
-        document.getElementById("inmetroCodigoProduto")
-            .innerText =
-            produto;
-
-        document.getElementById("inmetroDescricaoEN")
-            .innerText =
-            produtoInfo.descricaoEN;
-
-        document.getElementById("inmetroDescricaoPT")
-            .innerText =
-            produtoInfo.descricaoPT;
-
-        document.getElementById("inmetroFabricante")
-            .innerText =
-            produtoInfo.fabricante;
-
-        document.getElementById("inmetroEndereco")
-            .innerText =
-            produtoInfo.endereco;
-
-        document.getElementById("inmetroCidade")
-            .innerText =
-            produtoInfo.cidade;
-
-        document.getElementById("inmetroCnpj")
-            .innerText =
-            produtoInfo.cnpj;
-		
-
-const tipoKit =
-    document.getElementById("tipoKit").value;
-
-document.getElementById("inmetroQuantidade")
-    .innerText =
-    tipoKit + " KIT / UNIT";
-
-document.getElementById("inmetroOrigem")
-    .innerText =
-    produtoInfo.origem;
-
-document.getElementById("inmetroRegistro")
-    .innerText =
-    produtoInfo.registro;
-
-document.getElementById("inmetroSac")
-    .innerText =
-    produtoInfo.sac;
-
-const hoje = new Date();
-
-const dataFormatada =
-    String(hoje.getDate()).padStart(2,'0') + "/" +
-    String(hoje.getMonth() + 1).padStart(2,'0') + "/" +
-    hoje.getFullYear();
-
-document.getElementById("inmetroData")
-    .innerText = dataFormatada;
-
-
-/* Semana do ano */
-
-const inicioAno =
-    new Date(hoje.getFullYear(), 0, 1);
-
-const dias =
-    Math.floor(
-        (hoje - inicioAno) /
-        (24 * 60 * 60 * 1000)
-    );
-
-const semana =
-    Math.ceil(
-        (dias + inicioAno.getDay() + 1) / 7
-    );
-
-/* Turno */
-
-const hora = hoje.getHours();
-
-let turno = 1;
-
-if(hora >= 14 && hora < 22){
-    turno = 2;
-}
-
-if(hora >= 22 || hora < 6){
-    turno = 3;
-}
-
-/* Tabela ZF */
-
-const tabelaTurnos = {
-
-    1: ["X","A","D","G","M","Q","U"],
-
-    2: ["Y","B","E","J","N","R","V"],
-
-    3: ["Z","C","F","K","P","T","W"]
-
-};
-
-const diaSemana =
-    hoje.getDay();
-
-const letraDia =
-    tabelaTurnos[turno][diaSemana];
-
-/* Letra do Ano */
-
-const letrasAno = {
-
-    2024: "M",
-    2025: "N",
-    2026: "P"
-
-};
-
-const letraAno =
-    letrasAno[hoje.getFullYear()] || "";
-
-/* Monta o código */
-
-const semanaTexto =
-    semana.toString().padStart(2,"0");
-
-const codigoData =
-
-    semanaTexto.charAt(0) +
-
-    letraDia +
-
-    semanaTexto.charAt(1) +
-
-    letraAno;
-
-	document.getElementById("inmetroCodigoCliente2")
-    .innerText = produtoInfo.codigoCliente;
-
-document.getElementById("inmetroCodigoProduto2")
-    .innerText = produto;
-
-document.getElementById("inmetroDescricaoEN2")
-    .innerText = produtoInfo.descricaoEN;
-
-document.getElementById("inmetroDescricaoPT2")
-    .innerText = produtoInfo.descricaoPT;
-
-document.getElementById("inmetroFabricante2")
-    .innerText = produtoInfo.fabricante;
-
-document.getElementById("inmetroEndereco2")
-    .innerText = produtoInfo.endereco;
-
-document.getElementById("inmetroCidade2")
-    .innerText = produtoInfo.cidade;
-
-document.getElementById("inmetroCnpj2")
-    .innerText = produtoInfo.cnpj;
-
-document.getElementById("inmetroQuantidade2")
-    .innerText = tipoKit + " KIT / UNIT";
-
-document.getElementById("inmetroData2")
-    .innerText = dataFormatada;
-
-document.getElementById("inmetroCodigoRastreio2")
-    .innerText = codigoData;
-
-document.getElementById(
-    "inmetroCodigoRastreio"
-).innerText =
-    codigoData;
-
-
-	JsBarcode(
-    	     "#barcodeINMETRO",
-              produtoInfo.codigoCliente,
-              {
-                format:"CODE128",
-                width:1,
-                height:25,
-                displayValue:false,
-                margin:0
-    	      }
-);
-
-JsBarcode(
-    "#barcodeINMETRO2",
-    produtoInfo.codigoCliente,
-    {
-        format:"CODE128",
-        width:1,
-        height:25,
-        displayValue:false,
-        margin:0
-    }
-);
-
-
-    }
-
-}
-
-window.onload = function(){
-
-    carregarClientes();
-
-    atualizarProdutos();
-
-};
+el("cliente").addEventListener("change",atualizarTipos);
+el("tipo").addEventListener("change",atualizarProdutos);
+["produto","quantidade","copias","impressora"].forEach(function(id){
+ el(id).addEventListener("input",atualizarPreview);
+ el(id).addEventListener("change",atualizarPreview);
+});
+el("btnImprimir").addEventListener("click",function(){
+ atualizarPreview();
+ window.print();
+});
+
+setInterval(function(){
+ el("dataHora").textContent=new Date().toLocaleString("pt-BR");
+},1000);
+
+window.onload = carregarClientes;
 
 </script>
 
 </body>
-
 </html>
-
 `);
 
 });
 
-const PORT = process.env.PORT || 3000;
+app.listen(3000, () => {
 
-app.listen(PORT, () => {
-
-    console.log("Servidor iniciado");
+ console.log("Servidor iniciado");
 
 });
