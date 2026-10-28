@@ -307,12 +307,10 @@ function etiquetaGM(pn,p,qtd){
  const REC=13; // 1,3 cm
  const NARROW="Arial Narrow, Roboto Condensed, Arial, sans-serif";
  const CALIBRI="Calibri, Carlito, Arial, sans-serif";
- /* NEGRITO: aumente para deixar o texto mais grosso (ex.: 0.10, 0.15, 0.20) */
- const NEGRITO=0.15;
  /* texto: x, linha de base (y), tamanho da fonte, fonte, conteúdo, largura fixa (opcional) */
  function txt(x,y,tam,fonte,conteudo,largura){
-  return '<text x="'+x+'" y="'+y+'" font-size="'+tam+'" font-family="'+fonte+'" font-weight="900"'
-   +' fill="#000" stroke="#000" stroke-width="'+NEGRITO+'" stroke-linejoin="round"'
+  return '<text x="'+x+'" y="'+y+'" font-size="'+tam+'" font-family="'+fonte+'" font-weight="bold"'
+   +' fill="#000" text-rendering="geometricPrecision"'
    +(largura?' textLength="'+largura+'" lengthAdjust="spacingAndGlyphs"':'')+'>'+conteudo+'</text>';
  }
  return '<div class="etq gm"><svg viewBox="0 0 75 50" style="width:75mm;height:50mm;display:block">'
@@ -420,3 +418,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
  console.log("Servidor iniciado na porta " + PORT);
 });
+
