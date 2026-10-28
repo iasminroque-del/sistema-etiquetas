@@ -124,34 +124,19 @@ select:focus,input:focus{outline:2px solid #1565c0}
 
 .etq{
  position:relative;
- border:2px solid black;
+ border:1px solid black;
  background:white;
  color:black;
  overflow:hidden;
 }
 
-.etq>div{position:absolute;white-space:nowrap;line-height:1}
-
 /* ===== GM HOLOGRÁFICA 75x50mm ===== */
 
 .gm{width:75mm;height:50mm;border-radius:2mm}
 
-.gmb{font-family:Calibri,Carlito,Arial,sans-serif;font-weight:700;font-size:2.7mm}
-
-.gmc{
- font-family:"Arial Narrow","Roboto Condensed",Arial,sans-serif;
- font-weight:700;
- letter-spacing:-0.03em;
- display:flex;
- align-items:baseline;
-}
-
-.gmd{font-family:Calibri,Carlito,Arial,sans-serif;font-weight:700;font-size:3.5mm}
-
 /* ===== INMETRO 80x42mm ===== */
 
 .inm{width:80mm;height:42mm;padding:3mm}
-.inm>div{position:static}
 .inmetroTitulo{font-size:18px;font-weight:bold;font-family:Arial}
 .inmetroDescricao{font-size:10px;margin-top:4px;font-family:Arial}
 .inmetroInfo{font-size:8px;margin-top:4px;font-family:Arial}
@@ -309,23 +294,23 @@ const GM_DATAMATRIX = "{GM}"; // campos: {GM} {QTY} {COD} {DATA}
 
 const C128=["212222","222122","222221","121223","121322","131222","122213","122312","132212","221213","221312","231212","112232","122132","122231","113222","123122","123221","223211","221132","221231","213212","223112","312131","311222","321122","321221","312212","322112","322211","212123","212321","232121","111323","131123","131321","112313","132113","132311","211313","231113","231311","112133","112331","132131","113123","113321","133121","313121","211331","231131","213113","213311","213131","311123","311321","331121","312113","312311","332111","314111","221411","431111","111224","111422","121124","121421","141122","141221","112214","112412","122114","122411","142112","142211","241211","221114","413111","241112","134111","111242","121142","121241","114212","124112","124211","411212","421112","421211","212141","214121","412121","111143","111341","131141","114113","114311","411113","411311","113141","114131","311141","411131","211412","211214","211232","2331112"];
 
-function barcodeSVG(texto, alturaMm, larguraMm){
+/* Retorna um <svg> do código de barras posicionado em x,y com largura w e altura h (em mm) */
+function barcodeSVG(texto, x, y, w, h){
  const vals=[104]; let soma=104;
  texto.split("").forEach(function(c,i){
   const v=Math.max(0,Math.min(94,c.charCodeAt(0)-32));
   vals.push(v); soma+=v*(i+1);
  });
  vals.push(soma%103); vals.push(106);
- let x=10, rects="";
+ let px=0, rects="";
  vals.forEach(function(v){
-  C128[v].split("").forEach(function(w,j){
-   w=+w;
-   if(j%2===0) rects+='<rect x="'+x+'" y="0" width="'+w+'" height="100"/>';
-   x+=w;
+  C128[v].split("").forEach(function(b,j){
+   b=+b;
+   if(j%2===0) rects+='<rect x="'+px+'" y="0" width="'+b+'" height="100"/>';
+   px+=b;
   });
  });
- x+=10;
- return '<svg viewBox="0 0 '+x+' 100" preserveAspectRatio="none" style="width:'+larguraMm+'mm;height:'+alturaMm+'mm;display:block">'+rects+'</svg>';
+ return '<svg x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" viewBox="0 0 '+px+' 100" preserveAspectRatio="none" shape-rendering="crispEdges">'+rects+'</svg>';
 }
 
 /* =========================================================
@@ -393,10 +378,11 @@ const DM=(function(){
   }
   return {M:M,N:N};
  }
- function svg(s,sizeMm){
+ /* Retorna um <svg> do Data Matrix posicionado em x,y com lado "tam" (em mm) */
+ function svg(s,x,y,tam){
   const r=encode(s);let p="";
-  for(let y=0;y<r.N;y++)for(let c=0;c<r.N;c++)if(r.M[y][c])p+="M"+c+" "+y+"h1v1h-1z";
-  return '<svg viewBox="0 0 '+r.N+' '+r.N+'" shape-rendering="crispEdges" style="width:'+sizeMm+'mm;height:'+sizeMm+'mm;display:block"><path d="'+p+'"/></svg>';
+  for(let yy=0;yy<r.N;yy++)for(let c=0;c<r.N;c++)if(r.M[yy][c])p+="M"+c+" "+yy+"h1v1h-1z";
+  return '<svg x="'+x+'" y="'+y+'" width="'+tam+'" height="'+tam+'" viewBox="0 0 '+r.N+' '+r.N+'" shape-rendering="crispEdges"><path d="'+p+'"/></svg>';
  }
  return {svg:svg};
 })();
@@ -450,23 +436,39 @@ function atualizarProdutos(){
  atualizarPreview();
 }
 
-/* ----- Layout GM Holográfica (posições em % de 75x50mm) ----- */
+/* =========================================================
+   LAYOUT GM HOLOGRÁFICA – 75 x 50 mm
+   Todas as medidas abaixo estão em MILÍMETROS.
+   REC = recuo das informações a partir da borda esquerda.
+   ========================================================= */
 function etiquetaGM(pn,p,qtd){
- function X(v){return (v*75/100)+"mm";}
- function Y(v){return (v*50/100)+"mm";}
  const cod=GM_PREFIXO+p.codigo, jul=dataJuliana();
  const dmTxt=GM_DATAMATRIX.replace("{GM}",pn).replace("{QTY}",qtd).replace("{COD}",cod).replace("{DATA}",jul);
- return '<div class="etq gm">'
-  +'<div style="left:'+X(25.2)+';top:'+Y(6.3)+'">'+barcodeSVG(cod,6.6,20)+'</div>'
-  +'<div class="gmb" style="left:'+X(25.2)+';top:'+Y(20.6)+'">'+cod+'</div>'
-  +'<div class="gmb" style="left:'+X(51.5)+';top:'+Y(20.6)+'">'+jul+'</div>'
-  +'<div class="gmc" style="left:'+X(21.2)+';top:'+Y(29.5)+'"><span style="font-size:3.2mm">GM#</span><span style="font-size:5.2mm">'+pn+'</span></div>'
-  +'<div class="gmc" style="left:'+X(21.2)+';top:'+Y(39.6)+'"><span style="font-size:2.6mm">QTY.</span><span style="font-size:5.4mm;margin-left:.4em">'+qtd+' '+GM_UNIDADE+'</span></div>'
-  +'<div class="gmd" style="left:'+X(21.1)+';top:'+Y(56.5)+'">'+p.descPT+'</div>'
-  +'<div class="gmd" style="left:'+X(21.1)+';top:'+Y(64.3)+'">'+p.descES+'</div>'
-  +'<div class="gmd" style="left:'+X(21.1)+';top:'+Y(72.1)+'">'+p.descEN+'</div>'
-  +'<div style="left:'+X(73.8)+';top:'+Y(24.4)+'">'+DM.svg(dmTxt,13)+'</div>'
-  +'</div>';
+ const qtdTxt=qtd+" "+GM_UNIDADE;
+ const REC=13; // 1,3 cm
+
+ const NARROW="Arial Narrow, Roboto Condensed, Arial, sans-serif";
+ const CALIBRI="Calibri, Carlito, Arial, sans-serif";
+
+ /* texto: x, linha de base (y), tamanho da fonte, fonte, conteúdo, largura fixa (opcional) */
+ function txt(x,y,tam,fonte,conteudo,largura){
+  return '<text x="'+x+'" y="'+y+'" font-size="'+tam+'" font-family="'+fonte+'" font-weight="700"'
+   +(largura?' textLength="'+largura+'" lengthAdjust="spacingAndGlyphs"':'')+'>'+conteudo+'</text>';
+ }
+
+ return '<div class="etq gm"><svg viewBox="0 0 75 50" style="width:75mm;height:50mm;display:block">'
+  + barcodeSVG(cod, REC+3.2, 3.2, 19.8, 6.6)                          // código de barras
+  + txt(REC+3.2, 12.2, 2.5, CALIBRI, cod, 11)                          // 897001582
+  + txt(REC+22.6, 12.2, 2.5, CALIBRI, jul, 6.2)                        // 26237
+  + txt(REC, 18.9, 3.1, NARROW, "GM#", 5.9)                            // GM#
+  + txt(REC+6.2, 18.8, 4.5, NARROW, pn, (1.86*pn.length).toFixed(2))  // 26272686
+  + txt(REC, 25.0, 2.5, NARROW, "QTY.", 5.7)                           // QTY.
+  + txt(REC+6.2, 25.0, 4.7, NARROW, qtdTxt, (1.91*qtdTxt.length).toFixed(2)) // 1 UNID/UNIT
+  + txt(REC, 30.7, 2.9, CALIBRI, p.descPT)                             // descrição PT
+  + txt(REC, 34.6, 2.9, CALIBRI, p.descES)                             // descrição ES
+  + txt(REC, 38.5, 2.9, CALIBRI, p.descEN)                             // descrição EN
+  + DM.svg(dmTxt, 55.4, 12.3, 12.9)                                    // Data Matrix
+  + '</svg></div>';
 }
 
 /* ----- Layout INMETRO 80x42mm ----- */
@@ -542,8 +544,10 @@ window.onload = carregarClientes;
 
 });
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
 
- console.log("Servidor iniciado");
+app.listen(PORT, () => {
+
+ console.log("Servidor iniciado na porta " + PORT);
 
 });
