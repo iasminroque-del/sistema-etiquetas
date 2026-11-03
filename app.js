@@ -53,6 +53,8 @@ select:focus,input:focus{outline:2px solid #1565c0}
 .gm{width:75mm;height:50mm;border-radius:2mm}
 .pag{border:none;box-shadow:0 0 0 1px #c9ced8;background:white}
 @media screen{#preview .pag{zoom:1.8}}
+@media print{
+header,.form,.prev-titulo{display:none!important}
 body,main{background:white;padding:0;margin:0;display:block}
 .card{border:none;padding:0}
 #preview{display:block}
@@ -395,7 +397,7 @@ function atualizarPreview(){
   } else {
    const e=etiquetaINMETRO(prod.pn,prod.info,qtd);
    for(let i=0;i<n;i+=INM_COLUNAS){
-       const lista=[]; for(let c=0;c<INM_COLUNAS;c++) lista.push(e);
+    const lista=[]; for(let c=0;c<INM_COLUNAS;c++) lista.push(e);
     html+=folhaINMETRO(lista);
    }
    W=INM_PAPEL; H=INM_W;
