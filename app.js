@@ -1,8 +1,8 @@
 const express = require("express");
 const { exec } = require("child_process");
-const path = require("path");
-const fs = require("fs");
 const app = express();
+/* IMAGENS (Inmetro.png, IQA-PRETO.png, reciclagem.png) na mesma pasta do app.js */
+app.use("/img", express.static(__dirname));
 /* LISTA AS IMPRESSORAS DO WINDOWS (só quando roda no próprio computador) */
 app.get("/impressoras", (req, res) => {
  if (process.platform !== "win32") return res.json({ local: false, impressoras: [] });
@@ -14,11 +14,6 @@ app.get("/impressoras", (req, res) => {
   if (!Array.isArray(lista)) lista = [lista];
   res.json({ local: true, impressoras: lista });
  });
-});
-/* SELO INMETRO: coloque a imagem "selo-inmetro.png" na mesma pasta do app.js */
-app.get("/selo-inmetro.png", (req, res) => {
- const f = path.join(__dirname, "selo-inmetro.png");
- if (fs.existsSync(f)) res.sendFile(f); else res.status(404).end();
 });
 app.get("/", (req, res) => {
 res.send(`
@@ -317,7 +312,7 @@ function etiquetaGM(pn,p,qtd){
 /* =========================================================
    LAYOUT INMETRO – 77 x 43 mm, impressa girada, 2 por linha
    ========================================================= */
-let SELO_OK=false;
+const IMG="/img/";
 const ARIAL="Arial, Liberation Sans, Helvetica, sans-serif";
 function t2(x,y,tam,conteudo,peso,esc,alinhar){
  return '<text transform="translate('+x+','+y+') scale('+(esc||1)+',1)" x="0" y="0" font-size="'+tam+'" font-family="'+ARIAL+'"'
@@ -326,6 +321,7 @@ function t2(x,y,tam,conteudo,peso,esc,alinhar){
 function etiquetaINMETRO(pn,p,qtd){
  const cb=p.codigoCliente+qtd;   // código de barras = código do cliente + quantidade
  const hoje=new Date().toLocaleDateString("pt-BR");
+ function img(nome,x,y,w,h){ return '<image href="'+IMG+nome+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMid meet"/>'; }
  let s='<rect class="borda" x="0.3" y="0.3" width="'+(INM_W-0.6)+'" height="'+(INM_H-0.6)+'" rx="1.5" fill="none" stroke="#000" stroke-width="0.3"/>';
  s+=t2(3.5, 5.2, 5.4, p.codigoCliente, "bold", 0.85);
  s+=t2(73.5, 4.9, 3.6, qtd+" "+p.unidade, "bold", 0.85, "end");
@@ -341,24 +337,23 @@ function etiquetaINMETRO(pn,p,qtd){
  s+=t2(25.5, 30.0, 2.5, p.lote, "normal", 0.85);
  s+=barcodeSVG(cb, 3.5, 30.7, 27.5, 6.2, true);
  s+=t2(17.25, 39.3, 2.1, cb, "normal", 0.9, "middle");
- s+='<text x="39.5" y="29.8" font-size="5.5" text-anchor="middle" font-family="Segoe UI Symbol, DejaVu Sans, sans-serif" fill="#000">&#9851;</text>';
+ /* reciclagem e origem */
+ s+=img("reciclagem.png", 37, 25.2, 5, 5);
  s+=t2(39.5, 32.4, 1.8, p.origem, "bold", 0.85, "middle");
+ /* logos GM e ZF (desenhados) */
  s+='<rect x="55.4" y="7.2" width="3.6" height="3.6" rx="0.4" fill="#000"/>';
  s+=t2(57.2, 9.6, 1.7, "GM", "bold", 1, "middle").replace('fill="#000"','fill="#fff"');
  s+='<circle cx="63" cy="9" r="1.75" fill="none" stroke="#000" stroke-width="0.3"/>';
  s+=t2(63, 9.6, 1.6, "ZF", "bold", 1, "middle");
+ /* selo INMETRO: imagens do Q (IQA) e do N (Inmetro) + textos */
  s+='<rect x="53.6" y="12.6" width="20" height="20" fill="#fff" stroke="#000" stroke-width="0.3"/>';
- if(SELO_OK){
-  s+='<image href="/selo-inmetro.png" x="53.8" y="12.8" width="19.6" height="19.6" preserveAspectRatio="xMidYMid meet"/>';
- } else {
-  s+=t2(54.6, 15.2, 1.9, "Segurança", "normal", 0.9);
-  s+='<circle cx="57.6" cy="21.4" r="2.3" fill="none" stroke="#000" stroke-width="0.9"/>';
-  s+='<path d="M58.4 16.4h3.2l-2.6 4.6h2.6v1h-3.8l2.6-4.6h-2z" fill="#000"/>';
-  s+=t2(68.2, 19.8, 2.1, "Registro", "normal", 0.9, "middle");
-  s+=t2(68.2, 23.0, 2.0, p.registro, "bold", 0.8, "middle");
-  s+=t2(54.6, 27.2, 1.8, "I.Q.A", "bold", 0.9);
-  s+=t2(54.6, 30.6, 1.75, "OCP 0009 INMETRO", "bold", 0.85);
- }
+ s+=t2(54.5, 15.0, 1.9, "Segurança", "normal", 0.9);
+ s+=img("Inmetro.png", 58.0, 15.8, 5.2, 4.05);
+ s+=img("IQA-PRETO.png", 54.5, 19.0, 5.6, 5.1);
+ s+=t2(68.4, 19.6, 2.1, "Registro", "normal", 0.9, "middle");
+ s+=t2(68.4, 22.8, 2.0, p.registro, "bold", 0.8, "middle");
+ s+=t2(54.5, 27.0, 1.8, "I.Q.A", "bold", 0.9);
+ s+=t2(54.5, 30.6, 1.75, "OCP 0009 INMETRO", "bold", 0.85);
  s+=t2(53.6, 36.0, 2.2, "SAC "+p.sac, "bold", 0.85);
  return s;
 }
@@ -431,7 +426,6 @@ function preencherImpressoras(lista){
  atualizarPreview();
 }
 el("impressora").addEventListener("change",function(){ localStorage.setItem("impressoraEtiquetas", el("impressora").value); });
-(function(){ const i=new Image(); i.onload=function(){ SELO_OK=true; atualizarPreview(); }; i.src="/selo-inmetro.png"; })();
 window.onload=function(){ carregarClientes(); carregarImpressoras(); };
 </script>
 </body>
