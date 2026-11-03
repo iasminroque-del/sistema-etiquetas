@@ -351,13 +351,13 @@ function etiquetaINMETRO(pn,p,qtd){
  s+=t2(63, 9.6, 1.6, "ZF", "bold", 1, "middle");
  /* selo INMETRO: imagens do Q (IQA) e do N (Inmetro) + textos */
  s+='<rect x="53.6" y="12.6" width="20" height="20" fill="#fff" stroke="#000" stroke-width="0.3"/>';
- s+=t2(54.5, 15.0, 1.9, "Segurança", "normal", 0.9);
-  s+=img("IQA-PRETO.png", 54.4, 16.6, 5.0, 4.6);
- s+=img("Inmetro.png", 59.8, 17.1, 4.8, 3.75);
- s+=t2(69.2, 19.0, 1.9, "Registro", "normal", 0.9, "middle");
- s+=t2(69.0, 22.0, 1.8, p.registro, "bold", 0.72, "middle");
- s+=t2(54.5, 27.0, 1.8, "I.Q.A", "bold", 0.9);
- s+=t2(54.5, 30.6, 1.75, "OCP 0009 INMETRO", "bold", 0.85);
+ s+=t2(54.4, 15.0, 1.7, "Segurança", "normal", 0.85);
+ s+=img("Inmetro.png", 63.0, 13.4, 10.2, 7.95);
+ s+=img("IQA-PRETO.png", 54.4, 16.4, 6.6, 6.0);
+ s+=t2(54.4, 24.6, 1.9, "I.Q.A", "bold", 0.9);
+ s+=t2(54.4, 26.7, 1.8, "OCP 0009 INMETRO", "bold", 0.85);
+ s+=t2(54.4, 29.3, 2.5, "Registro", "normal", 0.9);
+ s+=t2(54.4, 31.9, 2.5, p.registro, "bold", 0.85);
  s+=t2(53.6, 36.0, 2.2, "SAC "+p.sac, "bold", 0.85);
  return s;
 }
