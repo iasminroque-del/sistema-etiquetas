@@ -73,7 +73,10 @@ body,main{background:white;padding:0;margin:0;display:block}
  <datalist id="listaPN"></datalist>
  <div class="desc" id="descricao">Descrição do material aparecerá aqui</div>
  <div class="passo"><span>4</span>Quantidade de peças por embalagem</div>
- <input id="quantidade" type="number" min="1" placeholder="Ex: 50">
+ <select id="quantidade">
+  <option value="1">1</option>
+  <option value="008">008</option>
+ </select>
  <div class="passo"><span>5</span>Quantidade de etiquetas</div>
  <input id="copias" type="number" min="1" max="500" value="1">
  <div class="passo"><span>6</span>Impressora</div>
@@ -373,6 +376,7 @@ function folhaINMETRO(etqs){
 function atualizarPreview(){
  const t=tipoAtual(), prod=produtoAtual();
  const qtd=parseInt(el("quantidade").value,10);
+ const qtdTxt=el("quantidade").value;
  const copias=parseInt(el("copias").value,10);
  let erro="";
  if(prod){
@@ -391,9 +395,9 @@ function atualizarPreview(){
   const n=Math.min(Math.max(copias||1,1),500);
   let html="", W, H;
   if(t.layout==="gmHolo"){
-   html=etiquetaGM(prod.pn,prod.info,qtd).repeat(n); W=75; H=50;
+     html=etiquetaGM(prod.pn,prod.info,qtdTxt).repeat(n); W=75; H=50;
   } else {
-   const e=etiquetaINMETRO(prod.pn,prod.info,qtd);
+    const e=etiquetaINMETRO(prod.pn,prod.info,qtdTxt);
    for(let i=0;i<n;i+=INM_COLUNAS){
     const lista=[]; for(let c=0;c<INM_COLUNAS;c++) lista.push(e);
     html+=folhaINMETRO(lista);
