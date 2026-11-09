@@ -345,8 +345,8 @@ function etiquetaINMETRO(pn,p,qtd){
  s+=img("reciclagem.png", 37, 25.2, 5, 5);
  s+=t2(39.5, 32.4, 1.8, p.origem, "bold", 0.85, "middle");
  /* logos GM e ZF (desenhados) */
- s+=img("logo-gm.png", 55.2, 7.1, 4.0, 3.8);
- s+=img("logo-zf.png", 61.1, 7.1, 3.8, 3.9);
+ s+=img("logo-gm.png", 59.2, 7.45, 4.0, 3.8);
+ s+=img("logo-zf.png", 64.2, 7.4, 3.8, 3.9);
  /* selo: logo IQA + N + textos */
  s+='<rect x="53.6" y="12.6" width="20" height="21" fill="#fff" stroke="#000" stroke-width="0.3"/>';
  s+=t2(63.6, 15.5, 2.0, "Segurança", "bold", 0.9, "middle");
