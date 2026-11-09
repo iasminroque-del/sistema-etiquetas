@@ -78,6 +78,12 @@ body,main{background:white;padding:0;margin:0;display:block}
   <option value="1">1</option>
   <option value="008">008</option>
  </select>
+  <div class="passo"><span>T</span>Turno</div>
+ <select id="turno">
+  <option value="1">1º turno</option>
+  <option value="2">2º turno</option>
+  <option value="3">3º turno</option>
+ </select>
  <div class="passo"><span>5</span>Quantidade de etiquetas</div>
  <input id="copias" type="number" min="1" max="500" value="1">
  <div class="passo"><span>6</span>Impressora</div>
@@ -326,6 +332,23 @@ function t2(x,y,tam,conteudo,peso,esc,alinhar){
  return '<text transform="translate('+x+','+y+') scale('+(esc||1)+',1)" x="0" y="0" font-size="'+tam+'" font-family="'+ARIAL+'"'
   +' font-weight="'+(peso||"normal")+'" fill="#000"'+(alinhar?' text-anchor="'+alinhar+'"':'')+'>'+String(conteudo)+'</text>';
 }
+const LETRA_ANO={2024:"M",2025:"N",2026:"P"};
+const LETRA_DIA={"1":"ADGMQUX","2":"BEJNRVY","3":"CFKPTWZ"};
+function semanaISO(d){
+ const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+ const dia=t.getUTCDay()||7;
+ t.setUTCDate(t.getUTCDate()+4-dia);
+ const ini=new Date(Date.UTC(t.getUTCFullYear(),0,1));
+ return Math.ceil(((t-ini)/864e5+1)/7);
+}
+function codigoLote(){
+ const d=new Date();
+ const sem=String(semanaISO(d)).padStart(2,"0");
+ const turno=el("turno")?el("turno").value:"1";
+ const letra=LETRA_DIA[turno][(d.getDay()+6)%7];
+ const ano=LETRA_ANO[d.getFullYear()]||"?";
+ return sem[0]+letra+sem[1]+ano;
+}
 function etiquetaINMETRO(pn,p,qtd){
  const cb=p.codigoCliente;   // código de barras = código do material
  const hoje=new Date().toLocaleDateString("pt-BR");
@@ -342,7 +365,7 @@ function etiquetaINMETRO(pn,p,qtd){
  s+=t2(3.5, 25.3, 2.2, p.cidade, "normal", 1).replace('<text ','<text letter-spacing="0.12" ');
  s+=t2(3.5, 27.5, 2.2, "CNPJ "+p.cnpj, "normal", 1).replace('<text ','<text letter-spacing="0.12" ');
  s+=t2(3.5, 30.0, 2.1, hoje, "normal", 0.85);
- s+=t2(25.5, 30.0, 2.1, p.lote, "normal", 0.85);
+ s+=t2(25.5, 30.0, 2.1, codigoLote(), "normal", 0.85);
  s+=barcodeSVG(cb, 3.5, 30.7, 27.5, 6.2, true);
  /* reciclagem e origem */
  s+=img("reciclagem.png", 37, 25.2, 5, 5);
@@ -412,7 +435,7 @@ function atualizarPreview(){
 }
 el("cliente").addEventListener("change",atualizarTipos);
 el("tipo").addEventListener("change",atualizarProdutos);
-["produto","quantidade","copias","impressora"].forEach(function(id){
+["produto","quantidade","copias","impressora","turno"].forEach(function(id){
  el(id).addEventListener("input",atualizarPreview);
  el(id).addEventListener("change",atualizarPreview);
 });
