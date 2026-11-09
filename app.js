@@ -357,7 +357,7 @@ function etiquetaINMETRO(pn,p,qtd){
  s+=t2(58.1, 27.2, 1.6, "OCP 0009", "bold", 0.9, "middle").replace('<text ','<text letter-spacing="0.05" ');
  s+=t2(63.6, 29.8, 2.3, "Registro", "normal", 0.9, "middle");
  s+=t2(63.6, 32.6, 2.3, p.registro, "normal", 0.9, "middle");
- s+=t2(53.6, 36.6, 2.2, "SAC "+p.sac, "bold", 0.85);
+ s+=t2(63.6, 36.6, 2.2, "SAC "+p.sac, "bold", 0.85, "middle");
  return s;
 }
 /* Monta uma "folha" de 9 cm com as etiquetas lado a lado, giradas */
