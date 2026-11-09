@@ -1,8 +1,6 @@
 const express = require("express");
 const { exec } = require("child_process");
 const app = express();
-/* IMAGENS (Inmetro.png, IQA-PRETO.png, reciclagem.png) na mesma pasta do app.js */
-app.use("/img", express.static(__dirname));
 /* LISTA AS IMPRESSORAS DO WINDOWS (só quando roda no próprio computador) */
 app.get("/impressoras", (req, res) => {
  if (process.platform !== "win32") return res.json({ local: false, impressoras: [] });
@@ -103,8 +101,8 @@ const dados = {
      "52171288": { descPT: 'PASTILHAS 15"', descES: 'PASTILLAS 15"', descEN: 'PADS 15"', codigo: "0000" }
     }
    },
-   "": {
-    layout: "",
+   "INMETRO": {
+    layout: "inmetro",
     produtos: {
      "A038M863": {
       codigoCliente: "52171287",
@@ -130,7 +128,7 @@ const dados = {
 const GM_PREFIXO = "89700";
 const GM_UNIDADE = "UNID/UNIT";
 const GM_DATAMATRIX = "{GM}|{PT}|{ES}|{EN}";
-/* Fixos da  (medidas em mm) */
+/* Fixos da etiqueta de selo (medidas em mm) */
 const INM_W = 77;        // comprimento de cada etiqueta (7,7 cm)
 const INM_H = 43;        // largura de cada etiqueta (4,3 cm)
 const INM_COLUNAS = 2;   // etiquetas lado a lado no rolo
@@ -310,10 +308,10 @@ function etiquetaGM(pn,p,qtd){
   + '</svg></div>';
 }
 /* =========================================================
-   LAYOUT  – 77 x 43 mm, impressa girada, 2 por linha
+   LAYOUT DA ETIQUETA DE SELO – 77 x 43 mm, girada, 2 por linha
    ========================================================= */
 const LOGOS={
- ".png":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAB8AQAAAADGSIbUAAABPUlEQVR42u3WsZHCMBCFYVl4OAUXEJKZEijBpVCKSrlSXAIlOLzQgQMPY7wX2Nbsyj8zHi7FGR8SD7Q7iwpx28e7veiaLX3RynH/Z34wf0REpF1fVSIiMq880/aS0BMWkdJrwithICwJD/gzI2FNeCUMhEfCAg85bg45nbM+ZOfcibYHwiNhgSVuCC+EJ8JvQk+oyqzerwkvhGfCMsOOvshg42d82PgZxZbZqwqFDH9M/IKd6bIFe1PmBScTv6CNN60YMmx1mVfsdJlXNPErzvE3ixJVmb1pkJChjk/4q+ITjqrLEk6qzAkl7u7PO+FAOBI+cdZhfzaEd8KBcCR84qSNNGmrdSDolR1tHwgfhIJzPtKcryA9xRvsCSdCwX+ZmrAl7Ah7wolw6TJPN4gM25e3i8PnevA2Fv+77P0BhwtvmyXEhCIAAAAASUVORK5CYII=",
+ "Inmetro.png":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAB8AQAAAADGSIbUAAABPUlEQVR42u3WsZHCMBCFYVl4OAUXEJKZEijBpVCKSrlSXAIlOLzQgQMPY7wX2Nbsyj8zHi7FGR8SD7Q7iwpx28e7veiaLX3RynH/Z34wf0REpF1fVSIiMq880/aS0BMWkdJrwithICwJD/gzI2FNeCUMhEfCAg85bg45nbM+ZOfcibYHwiNhgSVuCC+EJ8JvQk+oyqzerwkvhGfCMsOOvshg42d82PgZxZbZqwqFDH9M/IKd6bIFe1PmBScTv6CNN60YMmx1mVfsdJlXNPErzvE3ixJVmb1pkJChjk/4q+ITjqrLEk6qzAkl7u7PO+FAOBI+cdZhfzaEd8KBcCR84qSNNGmrdSDolR1tHwgfhIJzPtKcryA9xRvsCSdCwX+ZmrAl7Ah7wolw6TJPN4gM25e3i8PnevA2Fv+77P0BhwtvmyXEhCIAAAAASUVORK5CYII=",
  "IQA-PRETO.png":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACSAQAAAADqBvwmAAACi0lEQVR42t2WO27cQAyG/xktIhWLaEsXAaIj+AABrKPkCLmBVabMEXwUHcFHUDqXKraYAFoxBckhR9ZuEgdpsoVlfSCHb44C4fUv4ha8hM4o8W8F8Cj/k8IJQL2FgBMVmAAArUAx9AIAOIudwIpBrHqXLiLSe5eSvLT+zBeBZ6/+JHD16jm+R1O/ZDiaZMqwNUmDyQw9Z7gYHDNcLczg0quSvkyDwtXBUeHi4KQwOTgrnB1Me3VfFE4OrgpHbPwMVPjONJa+s/evGmxkuO513VKAaU99ZihRfvAu0CzV4WfNNeKXL2i95MRBEI0AULHkBADvANxvB+EOwFEzEiUfn7170YUccpqI1I5Ysp7nRyc6Ag8AgFM+kwCggf3NkqcioQI7dwgQfY5j+extxCYAtLgBB4CPRLGoxuDVw60d0nOR4t56KV87henaCjrcUj9d22Dp5lpr/mQBXofN36n/PkxvU09vst5s4ewll61686szJw/XW5IjVzT6pW8Du9ufvjH3ziRpsugX8FpKTnvqs0XbA5H7PRVpjX6/z7ZYdud9yCGNO+uCBlMfJTgOONi6wOxuSEQZnrPf8Sp5sdECos5Jhx95pHKWvuOr34rWMxURzaipyOcntSbu5ZtxYsksXO1t72OO3126D1xQNjSUt3sDaBrFzgq03qVQXFKdS22+zk5usSbghGiz2xR1P7itss1pJwF1iJv1l+9i8b6XgvYM+1zl1afLf1JIie9yQAkIcqbtv2eLLfpPiqhzMUjViG++WHwnXSRaIuJbspZnnqOja7NO464EPmlg2tg1d0Cw77oZqPnIypr2PdAA3/R4Uv2W++fBfSsuaGnU2VFIc5t0ICjQv960/y38CYyTm3hQvQ6NAAAAAElFTkSuQmCC",
  "reciclagem.png":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQAAAACjtFqAAAADU0lEQVR42s2WP67cRgzGf8NdZAXEiFSkiKunI7zS3cp9DpMDBHjKTXKTqHCRNiewnCqlDKSQDa2YgjMjjlYbvNIq9g9FDsmP30cpKABf6pntEvv684uGEMK5MA68B7hFV1VVVah7gBdVVTVPhbmziC18haUFGJ1xgbUBmHwi0ApgdsYZ6Pd1TsCHeI4P5++95wh8jmUUnnNvBWfjkI9zbQKEIfe5hWtbJjLPeNAQjZazARh18NmlAuBrSjQDXGaAeioSYbP4K3lOAPUCcAnJcwJoBOAmRZuQYZI8hDbkk2Ubl8FcFeHdDpD4YwB4itl1l2wLD9CCfUjGwx0tdyExkeERu03Izw8TVVZ3SMbpyHOMw8htC66+hLQAPx2Ff+fwqJIxeIAzSoN9jxEkm9Gzef+e86mqLhBUV4CrfoyeAhLB6uhisaEH+BeA25T4OXKJ09C5VjXjRG3Zg46XxKU3xJnBuGwqftJ4ccqsy3K7sRpuV9XxGh1ngqrNQueXaBxBVc4A/TmFj2RlJD9V4EWFYaOdbZYBob3jLOicUNQMqXD2nqPzrF0eapWCNDdbKNticXnknjTLtqycEpGUcOPgimzd7Pm5bmoATasi1WlLVDaoXHj53zarrOWM7uUT+TXKghO3raFJOLhk9jgau+edpzUvE+z1tchR1/b5PB/c+hmPCDICnLKEemA9tyWXtkkH/ZSwG4BTlExTNC9W8vdldvM54RGR3LHrVap02+vdF6OGSCVuf2yJxK3O1XI0rFl1qrOJ/iqhjAxAhzp+TKraE1R2IweEYtdPQMcbhI4dbs8lQ0agDaa43PoA8MP9s4Nm+gd0cqtCVVUves+lzxVCxdsmgdSDNoAuvINTWnmDqRjewS2EDkC7rScrckkDPSYtgV/SwzwpREoN5J38m6ngqmlXFMWPjp/d3UDEYTI4z3bYc9uf2SfVCPy4keZYsJFi6QHLNbZe6wHITRG+HJ15zhg8gG7/syuMoXgWx5I0G8Ttn/5hR2Fn7LxntxfrwzpbL9b06G68Ljl6Y0mvMZVHpInG835ZilsL+Y1IHDUCcMl3nzS2fbIXlZj9ZQXofy1mQFCg++PR3PfGltd6NkfG6tXh5yOjvDo8HHoOruf/Df+Gjf8BSQOvUQxU/esAAAAASUVORK5CYII="
 };
@@ -322,7 +320,7 @@ function t2(x,y,tam,conteudo,peso,esc,alinhar){
  return '<text transform="translate('+x+','+y+') scale('+(esc||1)+',1)" x="0" y="0" font-size="'+tam+'" font-family="'+ARIAL+'"'
   +' font-weight="'+(peso||"normal")+'" fill="#000"'+(alinhar?' text-anchor="'+alinhar+'"':'')+'>'+String(conteudo)+'</text>';
 }
-function etiqueta(pn,p,qtd){
+function etiquetaINMETRO(pn,p,qtd){
  const cb=p.codigoCliente+qtd;   // código de barras = código do cliente + quantidade
  const hoje=new Date().toLocaleDateString("pt-BR");
  function img(nome,x,y,w,h){ return '<image href="'+LOGOS[nome]+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMid meet"/>'; }
@@ -349,12 +347,12 @@ function etiqueta(pn,p,qtd){
  s+=t2(57.2, 9.6, 1.7, "GM", "bold", 1, "middle").replace('fill="#000"','fill="#fff"');
  s+='<circle cx="63" cy="9" r="1.75" fill="none" stroke="#000" stroke-width="0.3"/>';
  s+=t2(63, 9.6, 1.6, "ZF", "bold", 1, "middle");
- /* selo : imagens do Q (IQA) e do N () + textos */
+ /* selo: logo IQA + N + textos */
  s+='<rect x="53.6" y="12.6" width="20" height="21" fill="#fff" stroke="#000" stroke-width="0.3"/>';
-   s+=t2(63.6, 15.5, 2.0, "Segurança", "bold", 0.9, "middle");
+ s+=t2(63.6, 15.5, 2.0, "Segurança", "bold", 0.9, "middle");
  s+=img("IQA-PRETO.png", 54.6, 17.15, 7.0, 6.4);
- s+=img(".png", 63.3, 17.15, 8.2, 6.4);
-  s+=t2(58.1, 25.4, 2.0, "I.Q.A", "bold", 0.9, "middle");
+ s+=img("Inmetro.png", 63.3, 17.15, 8.2, 6.4);
+ s+=t2(58.1, 25.4, 2.0, "I.Q.A", "bold", 0.9, "middle");
  s+=t2(67.4, 25.4, 2.0, "INMETRO", "bold", 0.9, "middle");
  s+=t2(58.1, 27.2, 1.6, "OCP 0009", "bold", 0.9, "middle").replace('<text ','<text letter-spacing="0.05" ');
  s+=t2(55.0, 30.2, 2.6, "Registro", "normal", 0.9);
