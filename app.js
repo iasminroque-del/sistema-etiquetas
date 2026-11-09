@@ -326,7 +326,7 @@ function t2(x,y,tam,conteudo,peso,esc,alinhar){
   +' font-weight="'+(peso||"normal")+'" fill="#000"'+(alinhar?' text-anchor="'+alinhar+'"':'')+'>'+String(conteudo)+'</text>';
 }
 function etiquetaINMETRO(pn,p,qtd){
- const cb=p.codigoCliente+qtd;   // código de barras = código do cliente + quantidade
+ const cb=p.codigoCliente;   // código de barras = código do material
  const hoje=new Date().toLocaleDateString("pt-BR");
  function img(nome,x,y,w,h){ return '<image href="'+LOGOS[nome]+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMid meet"/>'; }
  let s='<rect class="borda" x="0.3" y="0.3" width="'+(INM_W-0.6)+'" height="'+(INM_H-0.6)+'" rx="1.5" fill="none" stroke="#000" stroke-width="0.3"/>';
