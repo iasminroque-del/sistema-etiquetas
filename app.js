@@ -341,8 +341,8 @@ function etiquetaINMETRO(pn,p,qtd){
  s+=t2(3.5, 23.1, 2.2, p.endereco, "normal", 1).replace('<text ','<text letter-spacing="0.12" ');
  s+=t2(3.5, 25.3, 2.2, p.cidade, "normal", 1).replace('<text ','<text letter-spacing="0.12" ');
  s+=t2(3.5, 27.5, 2.2, "CNPJ "+p.cnpj, "normal", 1).replace('<text ','<text letter-spacing="0.12" ');
- s+=t2(3.5, 30.0, 2.5, hoje, "normal", 0.85);
- s+=t2(25.5, 30.0, 2.5, p.lote, "normal", 0.85);
+ s+=t2(3.5, 30.0, 2.1, hoje, "normal", 0.85);
+ s+=t2(25.5, 30.0, 2.1, p.lote, "normal", 0.85);
  s+=barcodeSVG(cb, 3.5, 30.7, 27.5, 6.2, true);
  /* reciclagem e origem */
  s+=img("reciclagem.png", 37, 25.2, 5, 5);
