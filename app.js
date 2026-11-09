@@ -355,8 +355,8 @@ function etiquetaINMETRO(pn,p,qtd){
  s+=img("IQA-PRETO.png", 54.6, 17.15, 7.0, 6.4);
  s+=img("Inmetro.png", 63.3, 17.15, 8.2, 6.4);
  s+=t2(58.1, 25.4, 2.0, "I.Q.A", "bold", 0.9, "middle");
- s+=t2(58.1, 27.6, 2.0, "OCP 0009", "bold", 0.9, "middle");
- s+=t2(67.4, 27.6, 2.0, "INMETRO", "bold", 0.9, "middle");
+ s+=t2(58.1, 27.2, 1.9, "OCP 0009", "bold", 1, "middle").replace('<text ','<text letter-spacing="0.12" ');
+ s+=t2(67.4, 27.2, 2.0, "INMETRO", "bold", 0.9, "middle");
  s+=t2(55.0, 30.2, 2.6, "Registro", "normal", 0.9);
  s+=t2(55.0, 32.7, 2.6, p.registro, "normal", 0.9);
  s+=t2(53.6, 36.6, 2.2, "SAC "+p.sac, "bold", 0.85);
