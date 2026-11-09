@@ -46,6 +46,7 @@ select:focus,input:focus{outline:2px solid #1565c0}
 .gm{width:75mm;height:50mm;border-radius:2mm}
 .pag{border:none;box-shadow:0 0 0 1px #c9ced8;background:white}
 @media screen{#preview .pag{zoom:1.8}}
+.pag text{font-family:"Franklin Gothic Demi Cond","Franklin Gothic Demi","Franklin Gothic Medium Cond","Franklin Gothic Medium",Arial,sans-serif !important}
 @media print{
 header,.form,.prev-titulo{display:none!important}
 body,main{background:white;padding:0;margin:0;display:block}
